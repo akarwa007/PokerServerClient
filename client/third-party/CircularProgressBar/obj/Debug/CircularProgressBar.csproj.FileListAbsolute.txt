@@ -1,0 +1,13 @@
+C:\Users\Administrator\Downloads\falahati-CircularProgressBar-d58ce86\falahati-CircularProgressBar-d58ce86\CircularProgressBar\bin\Debug\CircularProgressBar.dll
+C:\Users\Administrator\Downloads\falahati-CircularProgressBar-d58ce86\falahati-CircularProgressBar-d58ce86\CircularProgressBar\bin\Debug\CircularProgressBar.pdb
+C:\Users\Administrator\Downloads\falahati-CircularProgressBar-d58ce86\falahati-CircularProgressBar-d58ce86\CircularProgressBar\bin\Debug\WinFormAnimation.dll
+C:\Users\Administrator\Downloads\falahati-CircularProgressBar-d58ce86\falahati-CircularProgressBar-d58ce86\CircularProgressBar\bin\Debug\WinFormAnimation.xml
+C:\Users\Administrator\Downloads\falahati-CircularProgressBar-d58ce86\falahati-CircularProgressBar-d58ce86\CircularProgressBar\obj\Debug\CircularProgressBar.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Downloads\falahati-CircularProgressBar-d58ce86\falahati-CircularProgressBar-d58ce86\CircularProgressBar\obj\Debug\CircularProgressBar.dll
+C:\Users\Administrator\Downloads\falahati-CircularProgressBar-d58ce86\falahati-CircularProgressBar-d58ce86\CircularProgressBar\obj\Debug\CircularProgressBar.pdb
+C:\Users\Administrator\Source\Repos\pokerclient\third-party\CircularProgressBar\bin\Debug\CircularProgressBar.dll
+C:\Users\Administrator\Source\Repos\pokerclient\third-party\CircularProgressBar\bin\Debug\CircularProgressBar.pdb
+C:\Users\Administrator\Source\Repos\pokerclient\third-party\CircularProgressBar\bin\Debug\WinFormAnimation.xml
+C:\Users\Administrator\Source\Repos\pokerclient\third-party\CircularProgressBar\obj\Debug\CircularProgressBar.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Source\Repos\pokerclient\third-party\CircularProgressBar\obj\Debug\CircularProgressBar.dll
+C:\Users\Administrator\Source\Repos\pokerclient\third-party\CircularProgressBar\obj\Debug\CircularProgressBar.pdb
