@@ -27,9 +27,8 @@ namespace PokerClient
         bool _Authenticated = false;
         TcpClient _client = null;
 
-        Poker.Shared.Message _message;
+        //Poker.Shared.Message _message;
 
-        ShellForm _shellform;
         ViewModel_Casino _casinoModel;
         View_Casino _casinoView;
         PokerUserC _pokeruser;
@@ -45,20 +44,16 @@ namespace PokerClient
         {
             _context = new PokerClientContext();
           
-            _shellform = new ShellForm();
+            
             _casinoModel = new ViewModel_Casino(username);
             
             _casinoView = new View_Casino();
             _casinoView.UserName = username;
             _casinoView.UpdateModel(_casinoModel);
-            _shellform.Dock = DockStyle.Fill;
-            _shellform.AutoSize = false;
+            
             _casinoView.Dock = DockStyle.Fill;
             _casinoView.AutoSize = false;
-            //_shellform.Controls.Add(_casinoView);
-            //this.Controls.Add(_casinoView);
-           // this._casinoView.Location = new Point(0, 80);
-           // this._casinoView.Size = new Size(this.Width, this.Height - 80);
+            
             this.Invoke((MethodInvoker)delegate {
                 this.panel1.Controls.Add(_casinoView);
             });
@@ -117,6 +112,7 @@ namespace PokerClient
                 this.Invoke(new Action<Poker.Shared.Message>(SetReceivedMessage), new object[] { value });
                 return;
             }
+            Console.WriteLine("Inside SetReceivedMessage function from threa " + Thread.CurrentThread.Name);
             this.txtReceiever.AppendText(value.MessageType.ToString() + "-- Content Size -> " + value.Content.Length.ToString());
             this.txtReceiever.AppendText(Environment.NewLine);
         }
@@ -194,11 +190,7 @@ namespace PokerClient
 
         private void btnCasino_Click(object sender, EventArgs e)
         {
-            if (_shellform != null)
-            {
-                _shellform.Text = "Casino View for " + _casinoView.UserName;
-                _shellform.Show();
-            }
+         
         }
 
         private void TestPlayer_Paint(object sender, PaintEventArgs e)

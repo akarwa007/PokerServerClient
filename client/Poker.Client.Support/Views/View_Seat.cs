@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Threading;
 using System.Windows.Forms;
 using Poker.Shared;
 
@@ -20,7 +21,7 @@ namespace Poker.Client.Support.Views
         Button btnCall;
         Button btnRaise;
         Button btnDealer;
-      
+        
         Color _panelswapcolor = Color.Salmon;
         Color origColor;
         int counter = 0;
@@ -122,7 +123,7 @@ namespace Poker.Client.Support.Views
      
         public void SimulateRequestBet(string comment)
         {
-            //lock (this)
+
             {
                 // Flash the seat with a time ticker
                 this.origColor = this.splitContainer2.Panel2.BackColor;
@@ -132,7 +133,8 @@ namespace Poker.Client.Support.Views
                     Console.WriteLine("While simulating requst bet , handle is not created");
                     return;
                 }
-                this.Invoke((MethodInvoker)delegate {
+                this.Invoke((MethodInvoker)delegate
+                {
                     counter = 30;
 
                     if (!this.Parent.Controls.Contains(this.btnFold))
@@ -153,12 +155,16 @@ namespace Poker.Client.Support.Views
                     timer1.Enabled = true;
                     timer1.Interval = 200;
                     timer1.Start();
+                    View_Table vt = (View_Table)this.Parent;
+                    vt.threadSync.Reset();
 
                 });
             }
+            Console.WriteLine("Done with SimulateRequestBet function call");
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
+
             //Console.WriteLine("Inside timer1 for " + this._vm_seat.UserName);
             if (timer1.Enabled)
             {
@@ -171,30 +177,42 @@ namespace Poker.Client.Support.Views
               
                 if (counter <= 0)
                 {
-                    StopTimer();
+                    try
+                    {
+                        StopTimer();
+                    }
+                    catch(Exception e1)
+                    {
+                        Console.WriteLine("Exception inside StopTime " + e1.Message);
+                    }
                 }
             }
         }
         private void StopTimer()
         {
-            if (timer1.Enabled == false)
-            return;
-
-            timer1.Stop();
-            timer1.Enabled = false;
-
-            this.labelChipsCount.Text = this._vm_seat.UserName;
-
-            this.btnCall.Visible = false;
-            this.btnFold.Visible = false;
-            this.btnRaise.Visible = false;
-
-            if (this.Parent.Controls.Contains(this.btnFold))
+            this.Invoke((MethodInvoker)delegate
             {
-                this.Parent.Controls.Remove(this.btnCall);
-                this.Parent.Controls.Remove(this.btnFold);
-                this.Parent.Controls.Remove(this.btnRaise);
-            }
+                if (timer1.Enabled == false)
+                    return;
+
+                timer1.Stop();
+                timer1.Enabled = false;
+
+                this.labelChipsCount.Text = this._vm_seat.UserName;
+
+                this.btnCall.Visible = false;
+                this.btnFold.Visible = false;
+                this.btnRaise.Visible = false;
+
+                if (this.Parent.Controls.Contains(this.btnFold))
+                {
+                    this.Parent.Controls.Remove(this.btnCall);
+                    this.Parent.Controls.Remove(this.btnFold);
+                    this.Parent.Controls.Remove(this.btnRaise);
+                }
+                View_Table vt = (View_Table)this.Parent;
+                vt.threadSync.Set();
+            });
         }
         private void Fold_Click(object sender, EventArgs e)
         {

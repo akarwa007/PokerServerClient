@@ -11,6 +11,7 @@ namespace PokerClient
     {
         PokerUserC _user;
         Dictionary<MessageType, Action<Message>> _dict = new Dictionary<MessageType, Action<Message>>();
+        private object syncObj = new object();
         public MessageFactory(PokerUserC user)
         {
             _user = user;
@@ -48,17 +49,20 @@ namespace PokerClient
             {
                 Console.WriteLine(ex.Message);
             }
-        }
+        }      
         public void ProcessMessage(Poker.Shared.Message message)
         {
 
             Console.WriteLine("Incoming message for " + message.UserName + " " + message.MessageType + " size=" + message.Content.Length.ToString());
-            if ((message != null)  && (_dict.ContainsKey(message.MessageType)))
-                _dict[message.MessageType](message);
-            if ((message != null) && (_dict.ContainsKey(MessageType.GeneralPurpose)))
-                _dict[MessageType.GeneralPurpose](message);
-			if ((message != null) && (message.MessageType == MessageType.ServerReady))
-				_user.ServerReady = true;
+            lock (this.syncObj)
+            {
+                if ((message != null) && (_dict.ContainsKey(message.MessageType)))
+                    _dict[message.MessageType](message);
+                if ((message != null) && (_dict.ContainsKey(MessageType.GeneralPurpose)))
+                    _dict[MessageType.GeneralPurpose](message);
+                if ((message != null) && (message.MessageType == MessageType.ServerReady))
+                    _user.ServerReady = true;
+            }
         }
 
     }

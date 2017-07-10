@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Poker.Shared;
 using Poker.Shared.Utils;
+using System.Threading;
 
 namespace Poker.Client.Support.Views
 {
@@ -17,6 +18,7 @@ namespace Poker.Client.Support.Views
         ViewModel_Table _vm_table = null;
         public event JoinedTableHandler JoinedTableEvent;
         public event ReceiveBetHandler ReceiveBetEvent;
+        public  readonly ManualResetEvent threadSync = new ManualResetEvent(true);
 
         View_Card VCard_flop1, VCard_flop2, VCard_flop3, VCard_turn, VCard_river;
         Label lflop1, lflop2, lflop3, lturn, lriver;
@@ -39,20 +41,24 @@ namespace Poker.Client.Support.Views
         }
         public void repaint()
         {
-            if (this.InvokeRequired)
+            Task.Run(() =>
             {
-                this.Invoke((MethodInvoker)delegate {
+                Thread.Sleep(10);
+                threadSync.WaitOne();
+                if (this.InvokeRequired)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        this.Controls.Clear();
+                        RenderControls();
+                    });
+                }
+                else
+                {
                     this.Controls.Clear();
-
                     RenderControls();
-                });
-            }
-            else
-            {
-                this.Controls.Clear();
-
-                RenderControls();
-            }
+                }
+            });
         }
         public string UserName
         {

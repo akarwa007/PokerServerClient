@@ -170,7 +170,9 @@ namespace Poker.Client.Support.Views
             ViewModel_Table latest = _casinoModel.GetLatest(vm);
             if (vm == null)
                 return;
+
             SetDetailPanel(latest.TableNo);
+
         }
         private View_Table GetViewTable(string tableno)
         {

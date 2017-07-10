@@ -132,7 +132,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PokerClient\Poker.Shared\Poker.Shared.csproj">
+    <ProjectReference Include="..\..\client\Poker.Shared\Poker.Shared.csproj">
       <Project>{fc88d542-980c-44b7-93b4-db5e26afcb85}</Project>
       <Name>Poker.Shared</Name>
     </ProjectReference>

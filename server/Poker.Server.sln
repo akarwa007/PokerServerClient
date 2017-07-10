@@ -4,14 +4,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poker.Server", "PokerServer\Poker.Server.csproj", "{EF2E34A3-20A7-4A8C-BFC4-8FA11CB494FC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poker.Shared", "..\PokerClient\Poker.Shared\Poker.Shared.csproj", "{FC88D542-980C-44B7-93B4-DB5E26AFCB85}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FC88D542-980C-44B7-93B4-DB5E26AFCB85} = {FC88D542-980C-44B7-93B4-DB5E26AFCB85}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poker.Gateway", "Poker.Gateway\Poker.Gateway.csproj", "{DACE6C7C-25D2-4304-B58C-2850583EC598}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poker.Server.UI", "Poker.Server.UI\Poker.Server.UI.csproj", "{DCC2459D-172E-41E8-9DE3-D5617663AE45}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FC88D542-980C-44B7-93B4-DB5E26AFCB85} = {FC88D542-980C-44B7-93B4-DB5E26AFCB85}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poker.Common", "Poker.Common\Poker.Common.csproj", "{B11A0EB2-C3A4-44F1-82F3-63164092FA83}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FC88D542-980C-44B7-93B4-DB5E26AFCB85} = {FC88D542-980C-44B7-93B4-DB5E26AFCB85}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poker.Shared", "..\client\Poker.Shared\Poker.Shared.csproj", "{FC88D542-980C-44B7-93B4-DB5E26AFCB85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +32,6 @@ Global
 		{EF2E34A3-20A7-4A8C-BFC4-8FA11CB494FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF2E34A3-20A7-4A8C-BFC4-8FA11CB494FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF2E34A3-20A7-4A8C-BFC4-8FA11CB494FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC88D542-980C-44B7-93B4-DB5E26AFCB85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC88D542-980C-44B7-93B4-DB5E26AFCB85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC88D542-980C-44B7-93B4-DB5E26AFCB85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC88D542-980C-44B7-93B4-DB5E26AFCB85}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DACE6C7C-25D2-4304-B58C-2850583EC598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DACE6C7C-25D2-4304-B58C-2850583EC598}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DACE6C7C-25D2-4304-B58C-2850583EC598}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +44,10 @@ Global
 		{B11A0EB2-C3A4-44F1-82F3-63164092FA83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B11A0EB2-C3A4-44F1-82F3-63164092FA83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B11A0EB2-C3A4-44F1-82F3-63164092FA83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC88D542-980C-44B7-93B4-DB5E26AFCB85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC88D542-980C-44B7-93B4-DB5E26AFCB85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC88D542-980C-44B7-93B4-DB5E26AFCB85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC88D542-980C-44B7-93B4-DB5E26AFCB85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
