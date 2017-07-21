@@ -67,6 +67,11 @@ C:\Users\akarwa\Poker\pokerclient\PokerClient\obj\Debug\PokerClient.TestPlayer.r
 C:\Users\akarwa\Poker\pokerclient\PokerClient\obj\Debug\Poker.Client.csproj.GenerateResource.Cache
 C:\Users\akarwa\Poker\pokerclient\PokerClient\obj\Debug\PokerClient.exe
 C:\Users\akarwa\Poker\pokerclient\PokerClient\obj\Debug\PokerClient.pdb
+C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\PokerClient.Properties.Resources.resources
+C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\PokerClient.ShellForm.resources
+C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\PokerClient.TestForm.resources
+C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\PokerClient.TestPlayer.resources
+C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\Poker.Client.csproj.GenerateResource.Cache
 C:\Users\akarwa\Poker\PokerServer\client\PokerClient\bin\Debug\resources\back_card.png
 C:\Users\akarwa\Poker\PokerServer\client\PokerClient\bin\Debug\resources\Cards.png
 C:\Users\akarwa\Poker\PokerServer\client\PokerClient\bin\Debug\PokerClient.exe.config
@@ -83,10 +88,5 @@ C:\Users\akarwa\Poker\PokerServer\client\PokerClient\bin\Debug\CircularProgressB
 C:\Users\akarwa\Poker\PokerServer\client\PokerClient\bin\Debug\Newtonsoft.Json.xml
 C:\Users\akarwa\Poker\PokerServer\client\PokerClient\bin\Debug\WinFormAnimation.xml
 C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\Poker.Client.csprojResolveAssemblyReference.cache
-C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\PokerClient.Properties.Resources.resources
-C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\PokerClient.ShellForm.resources
-C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\PokerClient.TestForm.resources
-C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\PokerClient.TestPlayer.resources
-C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\Poker.Client.csproj.GenerateResource.Cache
 C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\PokerClient.exe
 C:\Users\akarwa\Poker\PokerServer\client\PokerClient\obj\Debug\PokerClient.pdb

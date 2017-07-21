@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Poker.Shared;
 
 namespace Poker.Client.Support
 {
     public class ViewModel_Seat : BaseViewModel
     {
-        public ViewModel_Seat(string UserName)
+        public ViewModel_Seat(string UserName, IUserServices service)
         {
             base.UserName = UserName;
+            base.UserServices = service;
         }
         public ViewModel_Seat()
         {

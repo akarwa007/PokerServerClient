@@ -28,20 +28,13 @@ namespace Poker.Client.Support.Views
             InitializeComponent();
            
         }
-        private void init()
-        {
-            // do databindings
-
-            if (this.txtPlayerProfile.DataBindings.Count == 0)
-            {
-                Binding be = new Binding("Text", _casinoModel, "BankBalance");
-                be.ControlUpdateMode = ControlUpdateMode.OnPropertyChanged;
-                this.txtPlayerProfile.DataBindings.Add(be);
-            }
-        }
        public string UserName
         {
             get;set;
+        }
+        public List<View_Table> GetAllViewTables()
+        {
+            return _cache_ViewTables.Values.ToList<View_Table>();
         }
         public void UpdateModel(ViewModel_Casino model)
         {
@@ -56,7 +49,7 @@ namespace Poker.Client.Support.Views
         private void refresh()
         {
             ClearTreeView();
-            init();
+            
             var groups = _casinoModel.ListOfTables.GroupBy(x => x.GameName, x => new { x.GameValue, x });
             foreach (var j in groups)
             {
@@ -75,7 +68,9 @@ namespace Poker.Client.Support.Views
             if (message.MessageType == MessageType.TableUpdate)
             {
                 ViewModel_Table vm_table = JsonConvert.DeserializeObject<ViewModel_Table>(message.Content);
+
                 vm_table.UserName = this.UserName;
+                vm_table.UserServices = this._casinoModel.UserServices;
                 if (_casinoModel != null)
                 {
                     _casinoModel.Replace(vm_table);
@@ -85,6 +80,11 @@ namespace Poker.Client.Support.Views
                 {
                     SetDetailPanel(vm_table.TableNo);
                 }
+                else
+                {
+                    SetDetailPanel(vm_table.TableNo);
+                }
+
             }
         }
         private void PlayeActionMessage(Poker.Shared.Message message)
@@ -155,12 +155,24 @@ namespace Poker.Client.Support.Views
         }
         private void PlayerBankBalanceMessage(Poker.Shared.Message message)
         {
+            
             if (message.MessageType == MessageType.PlayerBankBalance)
             {
-                decimal balance = Convert.ToDecimal(message.Content);
-                this._casinoModel.BankBalance = balance;
-              
+                string temp = message.Content;
+                decimal total_money = Convert.ToDecimal(temp.Split(';')[0]);
+                decimal avail_money = Convert.ToDecimal(temp.Split(';')[1]);
+                this._casinoModel.BankBalance = new ViewModel_SelectMoney();
+
+                this._casinoModel.BankBalance.TotalMoney = total_money;
+                this._casinoModel.BankBalance.AvailableMoney = avail_money;
+                
+                this.updateBankBalance();
             }
+        }
+        private void updateBankBalance()
+        {
+            this.Invoke(new Action(() => this.txtPlayerProfile.Text = this._casinoModel.BankBalance.TotalMoney.ToString()));
+            //this.txtPlayerProfile.Text = this._casinoModel.BankBalance.ToString();
         }
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -178,6 +190,8 @@ namespace Poker.Client.Support.Views
         {
             View_Table vt;
             ViewModel_Table vm = _casinoModel.GetVMTable(tableno);
+            vm.UserName = this.UserName;
+            vm.UserServices = _casinoModel.UserServices;
             if (this._cache_ViewTables.ContainsKey(tableno))
             {
                 vt = _cache_ViewTables[tableno];
@@ -186,6 +200,8 @@ namespace Poker.Client.Support.Views
             else
             {
                 vt = new View_Table(vm);
+                
+                
                 vt.JoinedTableEvent += Vt_JoinedTableEvent;
                 vt.ReceiveBetEvent += Vt_ReceiveBetEvent;
                 lock (this.CardEvent)
@@ -200,10 +216,25 @@ namespace Poker.Client.Support.Views
                 vt.Visible = false;
                 vt.Height = splitContainer1.Panel2.Height;
                 vt.Width = splitContainer1.Panel2.Width;
-                splitContainer1.Invoke(new Action(() => splitContainer1.Panel2.Controls.Add(vt)));
+                //splitContainer1.Invoke(new Action(() => splitContainer1.Panel2.Controls.Add(vt)));
                 _cache_ViewTables[tableno] = vt;
+                AddToScreen(vt);
+
             }
             return vt; 
+        }
+        private void AddToScreen(View_Table vt)
+        {
+            if (_cache_ViewTables.Count() <= 2)
+                splitContainer1.Invoke(new Action(() => tableLayoutPanel1.Controls.Add(vt, 0, _cache_ViewTables.Count() % 2)));
+            else
+            {
+                splitContainer1.Invoke(new Action(() => tableLayoutPanel1.Controls.Add(vt, 1, _cache_ViewTables.Count() % 2)));
+            }
+        }
+        private void RemoveFromScreen()
+        {
+
         }
         private void SetDetailPanel(string tableno)
         {
@@ -214,10 +245,12 @@ namespace Poker.Client.Support.Views
 
                 if (_currentViewTable != null)
                 {
-                    _currentViewTable.Visible = false;
+                   // _currentViewTable.Visible = false;
+                    
                 }
                 _currentViewTable = vt;
                 _currentViewTable.Visible = true;
+                
                 _currentViewTable.Invalidate();
                 _currentViewTable.Update();
                 _currentViewTable.repaint();
@@ -225,33 +258,33 @@ namespace Poker.Client.Support.Views
                 _detailPanelModel = _casinoModel.GetVMTable(tableno);
             });
         }
-        private void SetDetailPanelOld(ViewModel_Table vm)
-        {
-            vm.UserName = this.UserName;
-            View_Table vt = new View_Table(vm);
-            vt.JoinedTableEvent += Vt_JoinedTableEvent;
-            vt.ReceiveBetEvent += Vt_ReceiveBetEvent;
-            lock (this.CardEvent)
-            {
-                this.CardEvent[vm.TableNo] = new Action<Shared.Message>(vt.ProcessMessage);
-            }
-            lock(this.BetEvent)
-            {
-                this.BetEvent[vm.TableNo] = new Action<Shared.Message>(vt.ProcessMessage);
-            }
-            vt.SuspendLayout();
-            vt.Height = splitContainer1.Panel2.Height;
-            vt.Width = splitContainer1.Panel2.Width;
+        //private void SetDetailPanelOld(ViewModel_Table vm)
+        //{
+        //    vm.UserName = this.UserName;
+        //    View_Table vt = new View_Table(vm);
+        //    vt.JoinedTableEvent += Vt_JoinedTableEvent;
+        //    vt.ReceiveBetEvent += Vt_ReceiveBetEvent;
+        //    lock (this.CardEvent)
+        //    {
+        //        this.CardEvent[vm.TableNo] = new Action<Shared.Message>(vt.ProcessMessage);
+        //    }
+        //    lock(this.BetEvent)
+        //    {
+        //        this.BetEvent[vm.TableNo] = new Action<Shared.Message>(vt.ProcessMessage);
+        //    }
+        //    vt.SuspendLayout();
+        //    vt.Height = splitContainer1.Panel2.Height;
+        //    vt.Width = splitContainer1.Panel2.Width;
          
-            splitContainer1.Invoke(new Action(() => splitContainer1.Panel2.Controls.Clear()));
-            splitContainer1.Invoke(new Action(() => splitContainer1.Panel2.Controls.Add(vt)));
+        //    splitContainer1.Invoke(new Action(() => splitContainer1.Panel2.Controls.Clear()));
+        //    splitContainer1.Invoke(new Action(() => splitContainer1.Panel2.Controls.Add(vt)));
 
-            vt.PerformLayout();
-            _detailPanelModel = vm;
+        //    vt.PerformLayout();
+        //    _detailPanelModel = vm;
             
-            //_cache_ViewTables[vm.TableNo] = vt;
+        //    //_cache_ViewTables[vm.TableNo] = vt;
           
-        }
+        //}
 
         private void Vt_JoinedTableEvent(string TableNo, short SeatNo, decimal ChipCounts)
         {
@@ -292,6 +325,23 @@ namespace Poker.Client.Support.Views
         private void txtPlayerProfile_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void tableLayoutPanel1_DragDrop(object sender, DragEventArgs e)
+        {
+            string s = "";
+        }
+
+        private void tableLayoutPanel1_DragEnter(object sender, DragEventArgs e)
+        {
+            if(e.Data.GetDataPresent(typeof(View_Table)))
+            {
+                e.Effect = DragDropEffects.All;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
         }
     }
 }

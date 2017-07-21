@@ -39,9 +39,10 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(492, 8);
+            this.btnConnect.Location = new System.Drawing.Point(656, 10);
+            this.btnConnect.Margin = new System.Windows.Forms.Padding(4);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(105, 31);
+            this.btnConnect.Size = new System.Drawing.Size(140, 38);
             this.btnConnect.TabIndex = 0;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -49,56 +50,62 @@
             // 
             // txtReceiever
             // 
-            this.txtReceiever.Location = new System.Drawing.Point(343, 13);
+            this.txtReceiever.Location = new System.Drawing.Point(457, 16);
+            this.txtReceiever.Margin = new System.Windows.Forms.Padding(4);
             this.txtReceiever.Name = "txtReceiever";
-            this.txtReceiever.Size = new System.Drawing.Size(143, 26);
+            this.txtReceiever.Size = new System.Drawing.Size(189, 31);
             this.txtReceiever.TabIndex = 4;
             this.txtReceiever.Text = "";
             // 
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(12, 23);
+            this.lblUsername.Location = new System.Drawing.Point(16, 28);
+            this.lblUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(64, 13);
+            this.lblUsername.Size = new System.Drawing.Size(80, 16);
             this.lblUsername.TabIndex = 5;
             this.lblUsername.Text = "Username : ";
             // 
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(178, 21);
+            this.lblPassword.Location = new System.Drawing.Point(237, 26);
+            this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(62, 13);
+            this.lblPassword.Size = new System.Drawing.Size(77, 16);
             this.lblPassword.TabIndex = 6;
             this.lblPassword.Text = "Password : ";
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(72, 16);
+            this.txtUsername.Location = new System.Drawing.Point(96, 20);
+            this.txtUsername.Margin = new System.Windows.Forms.Padding(4);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(100, 20);
+            this.txtUsername.Size = new System.Drawing.Size(132, 22);
             this.txtUsername.TabIndex = 7;
             this.txtUsername.Text = "Alok";
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(237, 13);
+            this.txtPassword.Location = new System.Drawing.Point(316, 16);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(100, 20);
+            this.txtPassword.Size = new System.Drawing.Size(132, 22);
             this.txtPassword.TabIndex = 8;
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(3, 45);
+            this.panel1.Location = new System.Drawing.Point(4, 55);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(599, 235);
+            this.panel1.Size = new System.Drawing.Size(799, 289);
             this.panel1.TabIndex = 15;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // TestPlayer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.txtPassword);
@@ -107,8 +114,9 @@
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.txtReceiever);
             this.Controls.Add(this.btnConnect);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TestPlayer";
-            this.Size = new System.Drawing.Size(606, 283);
+            this.Size = new System.Drawing.Size(808, 348);
             this.Load += new System.EventHandler(this.TestPlayer_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.TestPlayer_Paint);
             this.Resize += new System.EventHandler(this.TestPlayer_Resize);

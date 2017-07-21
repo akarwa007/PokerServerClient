@@ -15,7 +15,7 @@ namespace PokerClient
         int tabcount = 1;
         Color[] bk_color = new Color[]{Color.AliceBlue,Color.Coral};
         int color_index = 0;
-
+        TableLayoutPanel pp = new TableLayoutPanel();
         public TestForm()
         {
             InitializeComponent();
@@ -61,6 +61,25 @@ namespace PokerClient
         {
             this.tabControl1.Location = new Point(0, 50);
             this.tabControl1.Size = new Size(this.Width, this.Height - 50);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ShellForm s = new ShellForm();
+            s.Show();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            
+            for(int i =0; i < 9000; i++)
+            {
+                Button b = new Button();
+                b.Text = "alok";
+                b.Visible = true;
+
+                this.Controls.Add(b);
+            }
         }
     }
 }

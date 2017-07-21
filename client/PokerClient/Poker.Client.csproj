@@ -60,6 +60,7 @@
     <Compile Include="MessageFactory.cs" />
     <Compile Include="MessageProcessor.cs" />
     <Compile Include="PlayerC.cs" />
+    <Compile Include="PlayerProfile.cs" />
     <Compile Include="PokerClientContext.cs" />
     <Compile Include="PokerUserC.cs" />
     <Compile Include="ProducerConsumerC.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="TestPlayer.Designer.cs">
       <DependentUpon>TestPlayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserServices.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

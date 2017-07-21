@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Poker.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,10 @@ namespace Poker.Client.Support
         private ViewModel_Card blank = new ViewModel_Card();
         private Tuple<ViewModel_Card, ViewModel_Card, ViewModel_Card, ViewModel_Card, ViewModel_Card> _board;
         // public List<Tuple<short,string,decimal>> listTable = new List<Tuple<short,string,decimal>>(); // seatno, playername,chipcount
-        public ViewModel_Table(string UserName)
+        public ViewModel_Table(string UserName, IUserServices service)
         {
             base.UserName = UserName;
+            base.UserServices = service;
             _flop1 = new ViewModel_Card();
             _flop2 = new ViewModel_Card();
             _flop3 = new ViewModel_Card();
@@ -163,6 +165,7 @@ namespace Poker.Client.Support
                 if (vm_seat.SeatNo == seatno)
                 {
                     vm_seat.CurrentUserName = this.UserName;
+                    vm_seat.UserServices = this.UserServices;
                     return vm_seat;
                 }
             }

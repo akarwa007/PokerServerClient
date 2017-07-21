@@ -72,6 +72,30 @@ namespace Poker.Server
                 seatno++;
             }
         }
+        public void AddToPot(decimal betsize,  Player p) // how to use the player variable ? Maybe for tracking how the pot was built.
+        {
+            this._game.AddToPot(betsize);
+        }
+        public decimal GetPotSize()
+        {
+            return this._game.PotSize;
+        }
+        public void SetCurrentMinBet(decimal betsize)
+        {
+            this._game.MinCallingBetSize = betsize;
+        }
+        public decimal GetCurrentMinBet()
+        {
+            return this._game.MinCallingBetSize;
+        }
+        public void SetCurrentMaxRaisingBet(decimal betsize)
+        {
+            this._game.MaxRaisingBetSize = betsize;
+        }
+        public decimal GetCurrentMaxRaisingBet()
+        {
+            return this._game.MaxRaisingBetSize;
+        }
         public void AddPlayer(Player p)
         {
             // find next empty seat 

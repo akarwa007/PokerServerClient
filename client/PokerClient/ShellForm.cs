@@ -16,8 +16,12 @@ namespace PokerClient
         {
             InitializeComponent();
             this.ClientSize = new System.Drawing.Size(1000, 600);
+        
         }
-
+        public System.Windows.Forms.TableLayoutPanel GetPanel()
+        {
+            return this.tableLayoutPanel1;
+        }
         private void ShellForm_Load(object sender, EventArgs e)
         {
             //this.TransparencyKey = Color.FromArgb(255, 192, 192);
@@ -27,6 +31,11 @@ namespace PokerClient
         {
             e.Cancel = true;
             this.Hide();
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

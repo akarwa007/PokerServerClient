@@ -32,14 +32,17 @@
             // 
             // View_Table
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "View_Table";
-            this.Size = new System.Drawing.Size(475, 243);
+            this.Size = new System.Drawing.Size(633, 299);
             this.Load += new System.EventHandler(this.View_Table_Load);
             this.SizeChanged += new System.EventHandler(this.View_Table_SizeChanged);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.View_Table_DragEnter);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.View_Table_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.View_Table_MouseDown);
             this.ResumeLayout(false);
 
         }

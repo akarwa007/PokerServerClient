@@ -81,7 +81,11 @@ namespace Poker.Server
                         decimal chipCount = Convert.ToDecimal(arr[2]);
                         Table t = TableManager.Instance.GetTable(tableNo);
                         if (chipCount >= 0)
-                            t.AddPlayer(new Player(this, t,chipCount), seatNo);
+                        {
+                            t.AddPlayer(new Player(this, t, chipCount), seatNo);
+                            PlayerBankingService.Instance().UpdateBankBalanceInUse(this.UserName,chipCount);
+                            MessageFactory.SendPlayerBankBalanceMessage(this);
+                        }
                         else
                             t.RemovePlayerEx(seatNo);
                     }
@@ -95,11 +99,22 @@ namespace Poker.Server
                         // set the wait to the receieve action for the player
                         lock(t.SynchronizeGame)
                         {
+                            Player p = t.GetPlayer(this);
                             if (betsize < 0)
                             {
                                 // player wants to fold the hand.
-                                Player p = t.GetPlayer(this);
+                                
                                 p.FoldHand();
+                            }
+                            else
+                            {
+                                // update player bank account
+                                PlayerBankingService.Instance().UpdateBankBalanceInUse(this.UserName, betsize);
+                                //update pot size
+                                t.AddToPot(betsize,p);
+                                //update calling bet size
+                                t.SetCurrentMinBet(betsize);
+
                             }
                             Monitor.PulseAll(t.SynchronizeGame);
                         }
@@ -111,6 +126,7 @@ namespace Poker.Server
         }
         public void SendMessage(Message m)
         {
+            m.UserName = this.UserName;
             _producerconsumer.ProduceOutgoing(m);
         }
         public void RegisterForIncomingMessages(RecieveMessageDelegate handler)

@@ -25,7 +25,7 @@ namespace Poker.Client.Support.Views
         short myseat = -1; // means not occupying any seat
         Dictionary<short, View_Seat> Dict_View_Seats = new Dictionary<short, View_Seat>();
         public View_Table(ViewModel_Table vm_table)
-        {
+        {     
             _vm_table = vm_table;
             this.DoubleBuffered = true;
             InitializeComponent();
@@ -49,12 +49,20 @@ namespace Poker.Client.Support.Views
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
+                        foreach(Control ctrl in this.Controls)
+                        {
+                            ctrl.Dispose();
+                        }
                         this.Controls.Clear();
                         RenderControls();
                     });
                 }
                 else
                 {
+                    foreach (Control ctrl in this.Controls)
+                    {
+                        ctrl.Dispose();
+                    }
                     this.Controls.Clear();
                     RenderControls();
                 }
@@ -323,6 +331,10 @@ namespace Poker.Client.Support.Views
                 // Need to change this to assign to the view model of the seat rather than the view of the seat.
                // Dict_View_Seats[MySeatNo].Assign_HoleCards(null);
                 ViewModel_Seat  vm_seat = _vm_table.get_VM_Seat(MySeatNo);
+                if (vm_seat.HoleCard_1 != null)
+                    vm_seat.HoleCard_1.Dispose();
+                if (vm_seat.HoleCard_2 != null)
+                    vm_seat.HoleCard_2.Dispose();
                 vm_seat.HoleCard_1 = View_Deck.Instance.GetBackCard();
                 vm_seat.HoleCard_2 = View_Deck.Instance.GetBackCard();
                 Dict_View_Seats[MySeatNo].repaint();
@@ -330,6 +342,19 @@ namespace Poker.Client.Support.Views
             }
             Console.WriteLine("OnReceiveGameStart ");
         }
+
+        private void View_Table_DragEnter(object sender, DragEventArgs e)
+        {
+            string s = "";
+        }
+
+        private void View_Table_MouseDown(object sender, MouseEventArgs e)
+        {
+            string s = "";
+            TableLayoutPanel parent = (TableLayoutPanel)((View_Table)sender).Parent;
+            parent.DoDragDrop(sender, DragDropEffects.Move);
+        }
+
         public void OnReceiveGameEnd()
         {
 
@@ -406,14 +431,11 @@ namespace Poker.Client.Support.Views
             Console.WriteLine("OnReceiveRiver " + river.ToString());
         }
         public void OnReceiveRequestBet(Shared.Message m)
-        {
-            string[] arr = m.Content.Split(':');
-            string tableno = arr[0];
-
+        {    
             if (MySeatNo > 0)
             {
                 // Need to change this to assign to the view model of the seat rather than the view of the seat.
-                Dict_View_Seats[MySeatNo].SimulateRequestBet(arr[1]);
+                Dict_View_Seats[MySeatNo].SimulateRequestBet(m.Content);
             }
             Console.WriteLine("OnReceiveRequestBet " + m.Content);
         }

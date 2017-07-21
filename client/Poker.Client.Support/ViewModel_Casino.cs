@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
+using Poker.Shared;
 
 namespace Poker.Client.Support
 {
@@ -13,13 +14,14 @@ namespace Poker.Client.Support
     {
         private List<ViewModel_Table> _list = new List<ViewModel_Table>();
       
-        public ViewModel_Casino(string UserName)
+        public ViewModel_Casino(string UserName,IUserServices userservices)
         {
             base.UserName = UserName;
+            base.UserServices = userservices;
         }
         public ViewModel_Casino()
         {
-         
+            
         }
         public void CopyFrom(ViewModel_Casino casino)
         {
@@ -38,7 +40,7 @@ namespace Poker.Client.Support
             this.BankBalance = casino.BankBalance;
             
         }
-        public decimal BankBalance
+        public ViewModel_SelectMoney BankBalance
         {
             get;
             set;

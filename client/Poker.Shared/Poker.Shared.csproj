@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="A_Card.cs" />
     <Compile Include="A_Player.cs" />
+    <Compile Include="IPlayerProfile.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />

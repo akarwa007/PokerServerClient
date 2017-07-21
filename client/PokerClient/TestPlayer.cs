@@ -45,7 +45,7 @@ namespace PokerClient
             _context = new PokerClientContext();
           
             
-            _casinoModel = new ViewModel_Casino(username);
+            _casinoModel = new ViewModel_Casino(username,UserServices.Instance());
             
             _casinoView = new View_Casino();
             _casinoView.UserName = username;
@@ -74,6 +74,7 @@ namespace PokerClient
             _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendWinner);
             _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.GameUpdate);
             _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.PlayerBankBalance);
+            _context.MessageFactory.RegisterCallback(UserServices.Instance().ProcessMessage, MessageType.PlayerBankBalance);
 
             _pokeruser.setContext(_context);
             _casinoView.JoinedTableEvent += _context.MessageFactory.SendTableJoinMessage;
@@ -214,6 +215,17 @@ namespace PokerClient
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            List<View_Table> l1 =  _casinoView.GetAllViewTables();
+            ShellForm sf = new ShellForm();
+            l1[0].Visible = true;
+            l1[1].Visible = true;
+            sf.GetPanel().Controls.Add(l1[0], 0, 0);
+            sf.GetPanel().Controls.Add(l1[0], 1, 0);
+            sf.Show();
         }
     }
 }

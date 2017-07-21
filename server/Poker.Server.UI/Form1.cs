@@ -165,7 +165,7 @@ namespace Poker.Server
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Environment.Exit(0);
+                Environment.Exit(0);
         }
 
         private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)

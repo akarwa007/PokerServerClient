@@ -43,7 +43,9 @@ namespace Poker.Server
 		public static void SendPlayerBankBalanceMessage(PokerUser user)
         {
             Poker.Shared.Message m = new Shared.Message("PlayerBankBalance", MessageType.PlayerBankBalance);
-            m.Content = PlayerBankingService.Instance().GetBankBalance(user.UserName).ToString();
+            Tuple<decimal,decimal> temp = PlayerBankingService.Instance().GetBankBalance(user.UserName);
+            string temp1 = temp.Item1.ToString() + ";" + temp.Item2.ToString();
+            m.Content = temp1;
             if ((user != null) && (user.TcpClient != null) && (user.TcpClient.Connected))
             {
                 user.SendMessage(m);
@@ -53,7 +55,7 @@ namespace Poker.Server
         {
             // this will wait with the client player and seek an action 
             Message m = new Message("RequestBet", MessageType.PlayerActionRequestBet);
-            m.Content = t.TableNo + ":" + comment; // Add more elements like min and max bet size etc later
+            m.Content = t.TableNo + ":" + t.GetPotSize().ToString() + ":"  + t.GetCurrentMinBet().ToString() + ":" + t.GetCurrentMaxRaisingBet().ToString() + ":" + comment; // Add more elements like min and max bet size etc later
             lock (t) // this will synchronize this call with any previous pending call to SendToTablePlayers
             {
                 SendMessageToPlayer(p, m);

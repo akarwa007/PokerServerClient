@@ -49,7 +49,7 @@ namespace Poker.Server
         }
         private void Start()
         {
-            if (!((_table.SeatedPlayerCount() >= 2) && (!_GameInPogress)))
+            if (!((_table.SeatedPlayerCount() >= 3) && (!_GameInPogress)))
                 return;
                
             if ((_game == null) || (_table == null))

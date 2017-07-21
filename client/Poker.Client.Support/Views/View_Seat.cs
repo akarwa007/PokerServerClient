@@ -28,7 +28,7 @@ namespace Poker.Client.Support.Views
         public event JoinedTableHandler JoinedTableEvent;
         public event ReceiveBetHandler ReceiveBetEvent;
 
-        BindingSource _bindingSource = new BindingSource();
+        //BindingSource _bindingSource = new BindingSource();
         public View_Seat(ViewModel_Seat seat)
         {
             this._vm_seat = seat;
@@ -121,8 +121,14 @@ namespace Poker.Client.Support.Views
             }
         }
      
-        public void SimulateRequestBet(string comment)
+        public void SimulateRequestBet(string content)
         {
+            string[] arr = content.Split(':');
+            string tableno = arr[0];
+            decimal potsize = Convert.ToDecimal(arr[1]);
+            decimal currentbet = Convert.ToDecimal(arr[2]);
+            decimal maxraisebet = Convert.ToDecimal(arr[3]);
+            string comment = arr[4];
 
             {
                 // Flash the seat with a time ticker
@@ -135,7 +141,7 @@ namespace Poker.Client.Support.Views
                 }
                 this.Invoke((MethodInvoker)delegate
                 {
-                    counter = 30;
+                    counter = 10;
 
                     if (!this.Parent.Controls.Contains(this.btnFold))
                     {
@@ -151,6 +157,8 @@ namespace Poker.Client.Support.Views
                     this.btnCall.Visible = true;
                     this.btnFold.Visible = true;
                     this.btnRaise.Visible = true;
+                    this.btnCall.Text = "Call " + currentbet.ToString();
+                    this.btnRaise.Text = "Raise " + maxraisebet.ToString();
 
                     timer1.Enabled = true;
                     timer1.Interval = 200;
@@ -204,6 +212,9 @@ namespace Poker.Client.Support.Views
                 this.btnFold.Visible = false;
                 this.btnRaise.Visible = false;
 
+                this.btnCall.Text = "Call";
+                this.btnRaise.Text = "Raise";
+
                 if (this.Parent.Controls.Contains(this.btnFold))
                 {
                     this.Parent.Controls.Remove(this.btnCall);
@@ -234,6 +245,7 @@ namespace Poker.Client.Support.Views
         }
         private void btnJoinLeave_Click(object sender, EventArgs e)
         {// this button click flips the Joined boolean property. 
+            
             if (_vm_seat.Joined)
             {
                 _vm_seat.Joined = false;
@@ -247,12 +259,35 @@ namespace Poker.Client.Support.Views
             }
             else
             {
+                ViewModel_SelectMoney x = new ViewModel_SelectMoney();
+                x.TotalMoney = this._vm_seat.UserServices.GetPlayerProfile(this._vm_seat.CurrentUserName).TotalMoneyAvailable;
+                x.AvailableMoney = x.TotalMoney - this._vm_seat.UserServices.GetPlayerProfile(this._vm_seat.CurrentUserName).MoneyInPlay;
+                decimal selectedmoney = 0;
+
+                using (Dialogs.AddChipsToTable x1 = new Dialogs.AddChipsToTable(x))
+                {
+                    x1.StartPosition = FormStartPosition.Manual;
+                    x1.ShowInTaskbar = false;
+                    x1.Location = this.Parent.PointToScreen(Point.Empty);
+                    x1.MaximizeBox = false;
+                    x1.MinimizeBox = false;
+                    DialogResult result =   x1.ShowDialog(this);
+
+                    if (result == DialogResult.Cancel)
+                        return;
+                    else
+                        selectedmoney = x1.getModel().SelectedMoney;
+
+
+                }
+
+
                 _vm_seat.Joined = true;
                 this.labelChipsCount.Text = this._vm_seat.CurrentUserName;
                // this.btnJoinLeave.Text = "Leave";
                 if (JoinedTableEvent != null)
                 {
-                    JoinedTableEvent.Invoke(this._vm_seat.TableNo, this._vm_seat.SeatNo, this._vm_seat.ChipCounts);
+                    JoinedTableEvent.Invoke(this._vm_seat.TableNo, this._vm_seat.SeatNo, selectedmoney);
                 }
             }
         }
@@ -303,7 +338,8 @@ namespace Poker.Client.Support.Views
             });
               
          }
-     
+      
+
     }
 
 }
