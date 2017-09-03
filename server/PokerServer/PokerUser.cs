@@ -10,17 +10,18 @@ using Poker.Common;
 
 namespace Poker.Server
 {
-    
+
     public class PokerUser
     {
         private object lock_for_ProcessIncomingMessage = new object();
         ProducerConsumer _producerconsumer;
         Action<Message> _incomingmessage_callback;
+        string _UserName = "";
         public PokerUser()
         {
 
         }
-        public PokerUser(TcpClient client, Action<Message> incomingmessage_callback ,  string username)
+        public PokerUser(TcpClient client, Action<Message> incomingmessage_callback, string username)
         {
             TcpClient = client;
             _incomingmessage_callback = incomingmessage_callback;
@@ -32,13 +33,27 @@ namespace Poker.Server
         {
             return false;
         }
+        public void ReJoin(TcpClient client, Action<Message> incomingmessage_callback)
+        {
+            TcpClient = client;
+            _incomingmessage_callback = incomingmessage_callback;
+            validate();
+            init();
+        }
         private void init()
         {
             _producerconsumer = new ProducerConsumer(TcpClient, this);
             RegisterForIncomingMessages(new RecieveMessageDelegate(ProcessIncomingMessage));
             RegisterForIncomingMessages(new RecieveMessageDelegate(_incomingmessage_callback));
-			SendMessage(new Message("ServerReady",MessageType.ServerReady));
-           
+            SendMessage(new Message("ServerReady", MessageType.ServerReady));
+        }
+        internal Action<Message> Incomingmessage_callback
+        {
+            get
+            {
+                return _incomingmessage_callback;
+            }
+
         }
         internal TcpClient TcpClient
         {
@@ -54,8 +69,15 @@ namespace Poker.Server
         }
         public string UserName
         {
-            get;
-            set;
+            get
+            {
+                return _UserName;
+            }
+            set
+            {
+                _UserName = value;
+                PokerUserFactory.Instance.AddToList(this);
+            }
         }
         private void ProcessIncomingMessage(Message m)
         {
@@ -114,7 +136,10 @@ namespace Poker.Server
                                 t.AddToPot(betsize,p);
                                 //update calling bet size
                                 t.SetCurrentMinBet(betsize);
-
+                                //send message to other plaeyrs on the table about the action from this user
+                                Message m1 = new Message("Calls 10", MessageType.PlayerAction);
+                                m1.Content = t.TableNo + ":" + t.GetPlayerSeatNo(p).ToString() + ":" + "Calls " + betsize.ToString();
+                                MessageFactory.SendToTablePlayers(t, m1);
                             }
                             Monitor.PulseAll(t.SynchronizeGame);
                         }

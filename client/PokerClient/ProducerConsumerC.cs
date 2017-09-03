@@ -13,8 +13,8 @@ namespace PokerClient
 {
     public class ProducerConsumerC
     {
-        readonly object lockIncoming = new object();
-        readonly object lockOutgoing = new object();
+         object lockIncoming = new object();
+         object lockOutgoing = new object();
 
         Queue<Message> queueIncoming = new Queue<Message>();
         Queue<Message> queueOutgoing = new Queue<Message>();
@@ -25,18 +25,47 @@ namespace PokerClient
         PokerUserC _pokerUser;
         Thread ProduceIncomingThread;
         Thread ConsumeIncomingThread;
-        Thread ProduceOutgoingThread;
         Thread ConsumeOutgoingThread;
 
-      
+        bool StayConnected = true;
 
-        private Action<String> _funcStream;
         public ProducerConsumerC(PokerClientContext context)
         {
             _client = context.PokerUser.TcpClient;
             _pokerUser = context.PokerUser;
             _messageFactory = context.MessageFactory;
             init();
+        }
+        internal void reinit(TcpClient client)
+        {
+            // if all existing threads are dead then 
+            StayConnected = false;
+            int maxwait = 10; // 10 secs 
+            while (true)
+            {
+                if ((!ProduceIncomingThread.IsAlive) && (!ConsumeIncomingThread.IsAlive) && (!ConsumeOutgoingThread.IsAlive))
+                {
+                    init();
+                    break;
+                }
+                Thread.Sleep(1000);
+                maxwait--;
+                if (maxwait == 0)
+                {
+                    Console.WriteLine("Something is wrong, unable to abort all client threads, force aborting all threads");
+                    ProduceIncomingThread.Abort();
+                    ConsumeIncomingThread.Abort();
+                    ConsumeOutgoingThread.Abort();
+
+                    break;
+                }
+            }
+            _client = client;
+            lockIncoming = new object();
+            lockOutgoing = new object();
+            StayConnected = true;
+            init();
+            Thread.Sleep(5000);
         }
         private void init()
         {
@@ -65,7 +94,7 @@ namespace PokerClient
             NetworkStream ns = client.GetStream();
             StreamWriter sw = new StreamWriter(ns);
 
-            while (client.Connected)
+            while (client.Connected && StayConnected)
             {
 				if (!this._pokerUser.ServerReady)
 				{
@@ -96,6 +125,10 @@ namespace PokerClient
                             //_func1(client);
                             client.Close();
                         }
+                        catch (Exception e1)
+                        {
+                            client.Close();
+                        }
 
                     }
                 }
@@ -107,7 +140,7 @@ namespace PokerClient
             NetworkStream ns = client.GetStream();
             StreamReader reader = new StreamReader(ns);
 
-            while (client.Connected)
+            while (client.Connected & StayConnected)
             {
                 try
                 {
@@ -138,7 +171,7 @@ namespace PokerClient
         private void func_consumeincoming(TcpClient client)
         {
             //essentially dequeue from the queueIncoming
-            while (client.Connected)
+            while (client.Connected && StayConnected)
             {
                 Message m = ConsumeIncoming();
                 _messageFactory.ProcessMessage(m);
@@ -192,23 +225,6 @@ namespace PokerClient
                 return queueIncoming.Dequeue();
             }
         }
-        public Message ConsumeOutgoing()
-        {
-            lock (lockOutgoing)
-            {
-                // If the queue is empty, wait for an item to be added
-                // Note that this is a while loop, as we may be pulsed
-                // but not wake up before another thread has come in and
-                // consumed the newly added object. In that case, we'll
-                // have to wait for another pulse.
-                while (queueOutgoing.Count == 0)
-                {
-                    // This releases listLock, only reacquiring it
-                    // after being woken up by a call to Pulse
-                    Monitor.Wait(lockOutgoing);
-                }
-                return queueOutgoing.Dequeue();
-            }
-        }
+       
     }
 }

@@ -33,7 +33,7 @@ namespace PokerClient
         View_Casino _casinoView;
         PokerUserC _pokeruser;
 
-        PokerClientContext _context;
+        PokerClientContext _context = null;
         public TestPlayer()
         {
             //init();
@@ -42,44 +42,51 @@ namespace PokerClient
         }
         private void init(string username, string password)
         {
-            _context = new PokerClientContext();
-          
-            
-            _casinoModel = new ViewModel_Casino(username,UserServices.Instance());
-            
-            _casinoView = new View_Casino();
-            _casinoView.UserName = username;
-            _casinoView.UpdateModel(_casinoModel);
-            
-            _casinoView.Dock = DockStyle.Fill;
-            _casinoView.AutoSize = false;
-            
-            this.Invoke((MethodInvoker)delegate {
-                this.panel1.Controls.Add(_casinoView);
-            });
+            if (_context is null) // joining for the first time 
+            {
+                _context = new PokerClientContext();
 
-       
-            _pokeruser = new PokerUserC(_client, null, username, password);
-            _context.PokerUser = _pokeruser;
-            _context.MessageFactory = new MessageFactory(_pokeruser);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.CasinoUpdate);
-            _context.MessageFactory.RegisterCallback(this.SetReceivedMessage, MessageType.GeneralPurpose);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableUpdate);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage,MessageType.PlayerAction);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.PlayerActionRequestBet);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendHoleCards);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendFlop);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendTurn);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendRiver);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendWinner);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.GameUpdate);
-            _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.PlayerBankBalance);
-            _context.MessageFactory.RegisterCallback(UserServices.Instance().ProcessMessage, MessageType.PlayerBankBalance);
 
-            _pokeruser.setContext(_context);
-            _casinoView.JoinedTableEvent += _context.MessageFactory.SendTableJoinMessage;
-            _casinoView.ReceiveBetEvent += _context.MessageFactory.SendReceiveBetMessage;
-            
+                _casinoModel = new ViewModel_Casino(username, UserServices.Instance());
+
+                _casinoView = new View_Casino();
+                _casinoView.UserName = username;
+                _casinoView.UpdateModel(_casinoModel);
+
+                _casinoView.Dock = DockStyle.Fill;
+                _casinoView.AutoSize = false;
+
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.panel1.Controls.Add(_casinoView);
+                });
+
+
+                _pokeruser = new PokerUserC(_client, null, username, password);
+                _context.PokerUser = _pokeruser;
+                _context.MessageFactory = new MessageFactory(_pokeruser);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.CasinoUpdate);
+                _context.MessageFactory.RegisterCallback(this.SetReceivedMessage, MessageType.GeneralPurpose);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableUpdate);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.PlayerAction);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.PlayerActionRequestBet);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendHoleCards);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendFlop);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendTurn);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendRiver);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.TableSendWinner);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.GameUpdate);
+                _context.MessageFactory.RegisterCallback(_casinoView.ProcessMessage, MessageType.PlayerBankBalance);
+                _context.MessageFactory.RegisterCallback(UserServices.Instance().ProcessMessage, MessageType.PlayerBankBalance);
+
+                _pokeruser.setContext(_context);
+                _casinoView.JoinedTableEvent += _context.MessageFactory.SendTableJoinMessage;
+                _casinoView.ReceiveBetEvent += _context.MessageFactory.SendReceiveBetMessage;
+            }
+            else // joining after a disconnect, we just need to update the TcpClient 
+            {
+                _pokeruser.update(_client);
+            }
         }
 
         private bool Connected

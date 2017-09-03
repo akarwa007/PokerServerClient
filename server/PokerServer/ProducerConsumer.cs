@@ -61,6 +61,7 @@ namespace Poker.Server
         }
         private void func_consumeoutgoing(TcpClient client)
         {
+            Console.WriteLine("Started with func_consumeoutgoing");
             //essentially dequeue message from queueOutgoing and write to the networkstream
             NetworkStream ns = client.GetStream();
             StreamWriter sw = new StreamWriter(ns);
@@ -90,13 +91,19 @@ namespace Poker.Server
                             //_func1(client);
                             client.Close();
                         }
+                        catch(Exception e1)
+                        {
+                            client.Close();
+                        }
 
                     }
                 }
             }
+            Console.WriteLine("Finished with func_consumeoutgoing");
         }
         private void func_produceincoming(TcpClient client)
         {
+            Console.WriteLine("Started with func_produceincoming");
             // essentially read the message from networkstream and produce into the queueIncoming
             NetworkStream ns = client.GetStream();
             StreamReader reader = new StreamReader(ns);
@@ -127,12 +134,13 @@ namespace Poker.Server
                     Console.WriteLine(e.Message);
                 }
             }
-
+            Console.WriteLine("Finished with func_produceincoming");
         }
         private void func_consumeincoming(TcpClient client)
         {
+            Console.WriteLine("Started with func_consumeincoming");
             //essentially dequeue from the queueIncoming
-           while(client.Connected)
+            while (client.Connected)
             {
                 Message m = ConsumeIncoming();
                 m.UserName = this._pokerUser.UserName;
@@ -145,6 +153,7 @@ namespace Poker.Server
                 }
             
             }
+            Console.WriteLine("Finished with func_consumeincoming");
         }
     
         public void ProduceIncoming(Message o)
@@ -217,7 +226,7 @@ namespace Poker.Server
             if (message.MessageType == MessageType.PlayerActionRequestBet)
                 Console.WriteLine(message.MessageType + "--" + this._pokerUser.UserName + "--" + message.Content);
             else
-                Console.WriteLine(message.MessageType + " sent to" + this._pokerUser.UserName);
+                Console.WriteLine(message.MessageType + " sent to " + this._pokerUser.UserName);
         }
     }
 }

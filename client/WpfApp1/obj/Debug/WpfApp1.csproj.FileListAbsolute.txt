@@ -1,0 +1,3 @@
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\obj\Debug\App.g.cs
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\obj\Debug\WpfApp1_MarkupCompile.cache
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\obj\Debug\WpfApp1_MarkupCompile.lref

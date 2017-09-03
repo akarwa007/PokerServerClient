@@ -171,7 +171,25 @@ namespace Poker.Client.Support
             }
             return null;
         }
-     
+        public decimal getSmallBlindAmount()
+        {
+            decimal amt = 0;
+            if ((GameValue != null) && (GameValue != ""))
+            {
+                amt = Convert.ToDecimal(GameValue.Split('-')[0]);
+            }
+            return amt;
+        }
+        public decimal getBigBlindAmount()
+        {
+            decimal amt = 0;
+            if ((GameValue != null) && (GameValue != ""))
+            {
+                amt = Convert.ToDecimal(GameValue.Split('-')[1]);
+            }
+            return amt;
+        }
+
 
     }
 }

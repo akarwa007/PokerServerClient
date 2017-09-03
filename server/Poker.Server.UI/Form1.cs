@@ -77,25 +77,44 @@ namespace Poker.Server
 
             }
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load_1(object sender, EventArgs e)
         {
             this.MaximizeBox = false;
             //Table t = new Table(4);
             Deck d = Deck.GetShuffledDeck();
             Tuple<Card, Card, Card, Card, Card> hand = new Tuple<Card, Card, Card, Card, Card>(
                                                         new Card(Suit.Diamond,Rank.Nine),
-                                                        new Card(Suit.Club,Rank.King),
-                                                        new Card(Suit.Club,Rank.Queen),
+                                                        new Card(Suit.Club,Rank.Nine),
+                                                        new Card(Suit.Spade,Rank.Nine),
                                                         new Card(Suit.Club,Rank.Jack),
-                                                        new Card(Suit.Club,Rank.Ten)
+                                                        new Card(Suit.Heart,Rank.Jack)
                                                         );
-            HandRankings h = new HandRankings(hand);
-            Console.WriteLine(d.serialize());
 
+            Tuple<Card, Card, Card, Card, Card> hand1 = new Tuple<Card, Card, Card, Card, Card>(
+                                            new Card(Suit.Diamond, Rank.Ace),
+                                            new Card(Suit.Club, Rank.King),
+                                            new Card(Suit.Club, Rank.Queen),
+                                            new Card(Suit.Club, Rank.Jack),
+                                            new Card(Suit.Club, Rank.Ten)
+                                            );
+
+            Tuple<Card, Card, Card, Card, Card> hand2 = new Tuple<Card, Card, Card, Card, Card>(
+                                     new Card(Suit.Diamond, Rank.Ace),
+                                     new Card(Suit.Club, Rank.Two),
+                                     new Card(Suit.Club, Rank.Three),
+                                     new Card(Suit.Club, Rank.Four),
+                                     new Card(Suit.Club, Rank.Five)
+                                     );
+            HandRankings h = new HandRankings(hand);
+             h = new HandRankings(hand);
+             h = new HandRankings(hand);
+            Console.WriteLine(d.serialize());
+            AllPokerHands aa = new AllPokerHands();
+            aa.init();
           
         }
 
-        private void Form1_Load_1(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }

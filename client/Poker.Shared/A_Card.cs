@@ -52,7 +52,7 @@ namespace Poker.Shared
     }
     public enum Rank
     {
-        Ace = 0,
+        Ace = 1,
         Two,
         Three,
         Four,

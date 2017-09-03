@@ -25,12 +25,12 @@ C:\Users\akarwa\Poker\server\Poker.Common\bin\Debug\Newtonsoft.Json.xml
 C:\Users\akarwa\Poker\server\Poker.Common\obj\Debug\Poker.Common.csprojResolveAssemblyReference.cache
 C:\Users\akarwa\Poker\server\Poker.Common\obj\Debug\Poker.Common.dll
 C:\Users\akarwa\Poker\server\Poker.Common\obj\Debug\Poker.Common.pdb
+C:\Users\akarwa\Poker\PokerServer\server\Poker.Common\obj\Debug\Poker.Common.csprojResolveAssemblyReference.cache
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Common\bin\Debug\Poker.Common.dll
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Common\bin\Debug\Poker.Common.pdb
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Common\bin\Debug\Newtonsoft.Json.dll
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Common\bin\Debug\Poker.Shared.dll
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Common\bin\Debug\Poker.Shared.pdb
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Common\bin\Debug\Newtonsoft.Json.xml
-C:\Users\akarwa\Poker\PokerServer\server\Poker.Common\obj\Debug\Poker.Common.csprojResolveAssemblyReference.cache
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Common\obj\Debug\Poker.Common.dll
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Common\obj\Debug\Poker.Common.pdb

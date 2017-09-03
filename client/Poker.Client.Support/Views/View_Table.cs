@@ -19,11 +19,15 @@ namespace Poker.Client.Support.Views
         public event JoinedTableHandler JoinedTableEvent;
         public event ReceiveBetHandler ReceiveBetEvent;
         public  readonly ManualResetEvent threadSync = new ManualResetEvent(true);
+        public short simulatePlayerAction = -1; // seatno of the player from where the action was received , the player that just acted
+
 
         View_Card VCard_flop1, VCard_flop2, VCard_flop3, VCard_turn, VCard_river;
         Label lflop1, lflop2, lflop3, lturn, lriver;
         short myseat = -1; // means not occupying any seat
         Dictionary<short, View_Seat> Dict_View_Seats = new Dictionary<short, View_Seat>();
+
+        
         public View_Table(ViewModel_Table vm_table)
         {     
             _vm_table = vm_table;
@@ -75,6 +79,12 @@ namespace Poker.Client.Support.Views
                 return _vm_table.UserName;
             }
             set { }
+        }
+        private void resizehere(object sender, EventArgs e)
+        {
+            Control ctrl = (Control)sender;
+            int xChange = 1, yChange = 1;
+         
         }
         private void RenderControls()
         {
@@ -313,6 +323,9 @@ namespace Poker.Client.Support.Views
                 case MessageType.PlayerActionRequestBet:
                     OnReceiveRequestBet(message);
                     break;
+                case MessageType.PlayerAction:
+                    OnReceivePlayerAction(message);
+                    break;
                 case MessageType.GameUpdate:
                     string[] state = message.Content.Split(':');
                     if (state[0] == "Starting")
@@ -435,10 +448,59 @@ namespace Poker.Client.Support.Views
             if (MySeatNo > 0)
             {
                 // Need to change this to assign to the view model of the seat rather than the view of the seat.
-                Dict_View_Seats[MySeatNo].SimulateRequestBet(m.Content);
+                //Dict_View_Seats[MySeatNo].SimulateRequestBet(m.Content);
+                ViewModel_BetCollection vm_bc = new ViewModel_BetCollection();
+                vm_bc.AvailableMoney = _vm_table.get_VM_Seat(MySeatNo).ChipCounts;
+                string[] arr = m.Content.Split(':');
+                string tableno = arr[0];
+                decimal potsize = Convert.ToDecimal(arr[1]);
+                decimal currentbet = Convert.ToDecimal(arr[2]);
+                decimal maxraisebet = Convert.ToDecimal(arr[3]);
+                decimal minbet = this._vm_table.getBigBlindAmount();
+                string comment = arr[4];
+                vm_bc.CurrentBet = currentbet;
+                vm_bc.PotValue = potsize;
+                vm_bc.MinBetAllowed = Math.Max(minbet, currentbet);
+                vm_bc.UserName = this.UserName;
+                decimal betmade = 0;
+                this.Invoke((MethodInvoker)delegate
+                {
+                    using (Dialogs.BetCollectorControl x1 = new Dialogs.BetCollectorControl(vm_bc))
+                    {
+                        x1.StartPosition = FormStartPosition.Manual;
+                        x1.ShowInTaskbar = false;
+                        x1.Location = this.PointToScreen(Point.Empty);
+                        x1.MaximizeBox = false;
+                        x1.MinimizeBox = false;
+                        DialogResult result = x1.ShowDialog(this);
+
+                        if (result == DialogResult.Cancel)
+                            betmade = -1;
+                        else
+                            betmade = x1.getModel().BetChoosen;
+                    }
+                });
+                this.ReceiveBetEvent.Invoke(this._vm_table.TableNo, betmade);
+                Console.WriteLine("OnReceiveRequestBet " + m.Content);
             }
-            Console.WriteLine("OnReceiveRequestBet " + m.Content);
+            
+            //Console.WriteLine("OnReceiveRequestBet " + m.Content);
         }
+        public void OnReceivePlayerAction(Shared.Message m)
+        {
+            //if (MySeatNo > 0)
+            {
+                string[] arr = m.Content.Split(':');
+                string tableno = arr[0];
+                short seatno = Convert.ToInt16(arr[1]);
+                string action = arr[2];
+                // Need to change this to assign to the view model of the seat rather than the view of the seat.
+                this.simulatePlayerAction = seatno;
+                Dict_View_Seats[seatno].SimulatePlayerAction(action);
+            }
+            Console.WriteLine("OnReceivePlayerAction " + m.Content);
+        }
+
 
         private void View_Table_Load(object sender, EventArgs e)
         {
@@ -454,7 +516,8 @@ namespace Poker.Client.Support.Views
 
         private void View_Table_SizeChanged(object sender, EventArgs e)
         {
-            repaint();
+            resizehere(sender, e);
+           //repaint();
 
         }
 

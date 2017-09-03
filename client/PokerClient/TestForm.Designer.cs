@@ -41,7 +41,7 @@
             this.btnAddPlayer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.btnAddPlayer.Image = ((System.Drawing.Image)(resources.GetObject("btnAddPlayer.Image")));
             this.btnAddPlayer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddPlayer.Location = new System.Drawing.Point(32, 4);
+            this.btnAddPlayer.Location = new System.Drawing.Point(32, 3);
             this.btnAddPlayer.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddPlayer.Name = "btnAddPlayer";
             this.btnAddPlayer.Size = new System.Drawing.Size(244, 55);
@@ -55,7 +55,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(32, 66);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(10, 4, 4, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(936, 391);

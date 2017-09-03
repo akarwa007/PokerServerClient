@@ -43,10 +43,26 @@ namespace PokerClient
 
             _producerconsumer = new ProducerConsumerC(_context);
             // send the username to the server 
+            SendFirstMessage();
+        }
+        private void SendFirstMessage()
+        {
             string content = UserName + ":" + this._password;
             Message firstMessage = new Poker.Shared.Message(content, MessageType.PlayerSigningIn);
 
             this.SendMessage(firstMessage);
+
+        }
+        internal void update(TcpClient client)
+        {
+            if ((TcpClient != null) && (TcpClient.Connected))
+            {
+                TcpClient.Close();
+            }
+            
+            TcpClient = client;
+            _producerconsumer.reinit(client);
+            SendFirstMessage();
 
         }
         internal TcpClient TcpClient

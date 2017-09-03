@@ -22,9 +22,10 @@ namespace Poker.Server
             _table = table;
             _table.TableUpdatedEvent += _table_TableUpdatedEvent;
         }
-        public GameManager(Table table)
+        public GameManager(Table table) // This constructor is not being used anywhere yet, so its using hard coded values
         {
-            _game = new Game(100,500);
+
+            _game = new Game(100,500,2,5);
             _table = table;
             _table.TableUpdatedEvent += _table_TableUpdatedEvent;
         }
@@ -49,7 +50,7 @@ namespace Poker.Server
         }
         private void Start()
         {
-            if (!((_table.SeatedPlayerCount() >= 3) && (!_GameInPogress)))
+            if (!((_table.SeatedPlayerCount() >= 2) && (!_GameInPogress)))
                 return;
                
             if ((_game == null) || (_table == null))
@@ -60,8 +61,8 @@ namespace Poker.Server
             _table.SetDealerPosition();
             //deal hole cards to seated players
             int playercount = _table.SeatedPlayerCount();
-            int gamecount = 10;
-            int timespan = 8000; // 10 secs
+            int gamecount = 100;
+            int timespan = 33000; // 33 secs
             while ((gamecount > 0) && (!_GameStopFlag)) // game loop
             {
                 gamecount--;

@@ -1,0 +1,10 @@
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojResolveAssemblyReference.cache
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.Cache
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\Users\akarwa\Poker\PokerServer\client\WpfApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.UserControl1.resources

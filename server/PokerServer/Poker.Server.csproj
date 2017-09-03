@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllPokerHands.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="ClientConnections.cs" />
     <Compile Include="ClientPlayerManager.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameManager.cs" />
+    <Compile Include="HandComparer.cs" />
     <Compile Include="HandRankings.cs" />
     <Compile Include="Iterator.cs" />
     <Compile Include="MessageFactory.cs" />

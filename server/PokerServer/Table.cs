@@ -31,7 +31,9 @@ namespace Poker.Server
             _gameName = gamename;
             _gameSubName = gamesubname;
             _gameValue = gamevalue;
-            _game = new Game(minchips, maxchips);
+            decimal small = Convert.ToDecimal(_gameValue.Split('-')[0]);
+            decimal big = Convert.ToDecimal(_gameValue.Split('-')[1]);
+            _game = new Game(minchips, maxchips,small,big);
             _gameManager = new GameManager(_game, this);
             _tableNo = "Table" + Table.TableNumber++;
             TableUpdatedEvent += tableUpdateEventHandler;
@@ -152,17 +154,21 @@ namespace Poker.Server
         }
         public void RemovePlayer(Player p)
         {
-           // find player where he is seated and remove him 
+            // find player where he is seated and remove him 
+            bool success = false;
             foreach (Seat seat in _seats.Keys)
             {
                 if (_seats[seat] == p)
                 {
                     _seats[seat] = new Player(null,this,0);
                     seat.RemovePlayer(p);
+                    success = true;
                     //RemovedPlayer = p;
                     break;
                 }
             }
+            if (success)
+                PlayerBankingService.Instance().UpdateBankBalanceInUse(p.UserName, -1*p.ChipCount);
         }
         public Player RemovedPlayer
         {
@@ -179,7 +185,7 @@ namespace Poker.Server
                 _seats = value;
             }
         }
-        private int GetPlayerSeatNo(Player p)
+        public int GetPlayerSeatNo(Player p)
         {
             int seatno = 0;
             var x = this._seats.Where(a => a.Value == p).FirstOrDefault();

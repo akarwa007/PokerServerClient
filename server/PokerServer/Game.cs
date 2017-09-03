@@ -18,16 +18,21 @@ namespace Poker.Server
         private decimal _minStartingChipsPerPlayer;
         private decimal _maxStartingChipsPerPlayer;
         private decimal _potSize = 0;
+        private decimal _smallBlind = 0;
+        private decimal _bigBlind = 0;
         private decimal _minCallingbBetSize = 10;  // these are sent to the user when requesting action
         private decimal _maxRaisingBettingSize = -1; // these are sent to the user when requesting action , -1 means its a no limit game and raise can be all of players money on the table
 
         private string _gameState = "NotStarted"; // valid values "Starting" , "Ended" , "InProgress" , "NotStarted"
-        public Game(decimal minChips, decimal maxChips)
+        public Game(decimal minChips, decimal maxChips, decimal smallblind, decimal bigblind)
         {
             if (minChips < 0)
                 throw new Exception("Min chips per person cannot be negative");
             _minStartingChipsPerPlayer = minChips;
             _maxStartingChipsPerPlayer = maxChips;
+            _smallBlind = smallblind;
+            _bigBlind = bigblind;
+            _minCallingbBetSize = bigblind;
             initialize();
         }
         public void initialize()
@@ -37,6 +42,8 @@ namespace Poker.Server
             _flop = new Tuple<Card, Card, Card>(new Card(), new Card(), new Card());
             _turn = new Card();
             _river = new Card();
+            _potSize = 0;
+            _minCallingbBetSize = _bigBlind;
         }
         public   Tuple<Card,Card> DealPlayerHand()
         {

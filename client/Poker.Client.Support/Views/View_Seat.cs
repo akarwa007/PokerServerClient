@@ -10,6 +10,7 @@ using System.Timers;
 using System.Threading;
 using System.Windows.Forms;
 using Poker.Shared;
+using System.Diagnostics;
 
 namespace Poker.Client.Support.Views
 {
@@ -114,13 +115,20 @@ namespace Poker.Client.Support.Views
                 btnCall.Click += Call_Click;
                 btnRaise.Click += Raise_Click;
 
-                labelChipsCount.Dock = DockStyle.Fill;
+                labelChipsCount.Dock = DockStyle.Bottom;
+                labelChipsCount.Font = new Font("Arial", 6, FontStyle.Bold);
+                //labelChipsCount.Height = 12;
+
+
+
+                labelChipsCount.TextAlign = ContentAlignment.BottomCenter;
                 this.splitContainer2.Panel2.Controls.Add(labelChipsCount);
-                this.splitContainer2.Dock = DockStyle.Fill;
+                
+                this.splitContainer2.SplitterDistance = this.splitContainer2.Height - 10;
+                //this.splitContainer2.Dock = DockStyle.Fill;
                 this.splitContainer3.Dock = DockStyle.Fill;
             }
         }
-     
         public void SimulateRequestBet(string content)
         {
             string[] arr = content.Split(':');
@@ -141,7 +149,43 @@ namespace Poker.Client.Support.Views
                 }
                 this.Invoke((MethodInvoker)delegate
                 {
-                    counter = 10;
+                    counter = 50;
+
+                    //Dialogs.BetCollectorControl ctrl = new Dialogs.BetCollectorControl();
+                    //this.Parent.Controls.Add(ctrl);
+                    //ctrl.Dock = DockStyle.Bottom;
+
+                    timer1.Enabled = true;
+                    timer1.Interval = 200;
+                    timer1.Start();
+                    View_Table vt = (View_Table)this.Parent;
+                    vt.threadSync.Reset();
+
+                });
+            }
+            Console.WriteLine("Done with SimulateRequestBet function call");
+        }
+        public void SimulateRequestBet1(string content)
+        {
+            string[] arr = content.Split(':');
+            string tableno = arr[0];
+            decimal potsize = Convert.ToDecimal(arr[1]);
+            decimal currentbet = Convert.ToDecimal(arr[2]);
+            decimal maxraisebet = Convert.ToDecimal(arr[3]);
+            string comment = arr[4];
+
+            {
+                // Flash the seat with a time ticker
+                this.origColor = this.splitContainer2.Panel2.BackColor;
+                //Console.WriteLine("Inside SimulateRequest for " + this._vm_seat.UserName + " for " + comment);
+                if (!this.IsHandleCreated)
+                {
+                    Console.WriteLine("While simulating requst bet , handle is not created");
+                    return;
+                }
+                this.Invoke((MethodInvoker)delegate
+                {
+                    counter = 50;
 
                     if (!this.Parent.Controls.Contains(this.btnFold))
                     {
@@ -225,6 +269,57 @@ namespace Poker.Client.Support.Views
                 vt.threadSync.Set();
             });
         }
+        public void SimulatePlayerAction(string action)
+        {
+
+            //Console.WriteLine("Inside SimulateRequest for " + this._vm_seat.UserName + " for " + comment);
+            if (!this.IsHandleCreated)
+            {
+                Console.WriteLine("While simulating player action , handle is not created");
+                return;
+            }
+            this.Invoke((MethodInvoker)delegate
+            {
+                
+                //Blink(action);
+                SoftBlink(this.labelChipsCount, action, Color.FromArgb(30, 30, 30), Color.Red, 2000, false);
+            });
+            
+            Console.WriteLine("Done with SimulatePlayerAction function call");
+
+        }
+        private async void Blink(string swap)
+        {
+            string swapped = this.labelChipsCount.Text;
+            View_Table vt = (View_Table)this.Parent;
+            while (vt.simulatePlayerAction == this._vm_seat.SeatNo)
+            {
+                await Task.Delay(50);
+                this.labelChipsCount.Text = this.labelChipsCount.Text == swapped ? swap : swapped;
+            }
+        }
+        private async void SoftBlink(Control ctrl, string swap, Color c1, Color c2, short CycleTime_ms, bool BkClr)
+        {
+            var sw = new Stopwatch(); sw.Start();
+            short halfCycle = (short)Math.Round(CycleTime_ms * 0.5);
+            View_Table vt = (View_Table)this.Parent;
+            string swapped = this.labelChipsCount.Text;
+            Color origColor = this.labelChipsCount.BackColor;
+            while (vt.simulatePlayerAction == this._vm_seat.SeatNo)
+            {
+                await Task.Delay(500);
+                var n = sw.ElapsedMilliseconds % CycleTime_ms;
+                var per = (double)Math.Abs(n - halfCycle) / halfCycle;
+                var red = (short)Math.Round((c2.R - c1.R) * per) + c1.R;
+                var grn = (short)Math.Round((c2.G - c1.G) * per) + c1.G;
+                var blw = (short)Math.Round((c2.B - c1.B) * per) + c1.B;
+                var clr = Color.FromArgb(red, grn, blw);
+                if (BkClr) ctrl.BackColor = clr; else ctrl.ForeColor = clr;
+                this.labelChipsCount.Text = this.labelChipsCount.Text == swapped ? swap : swapped;
+            }
+            this.labelChipsCount.Text = swapped;
+            this.labelChipsCount.BackColor = origColor;
+        }
         private void Fold_Click(object sender, EventArgs e)
         {
             if (this.ReceiveBetEvent != null)
@@ -245,7 +340,7 @@ namespace Poker.Client.Support.Views
         }
         private void btnJoinLeave_Click(object sender, EventArgs e)
         {// this button click flips the Joined boolean property. 
-            
+                 
             if (_vm_seat.Joined)
             {
                 _vm_seat.Joined = false;

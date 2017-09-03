@@ -38,9 +38,30 @@ namespace Poker.Server
         {
             if (Authenticate(username, encyrpted_pwd))
             {
-                _pokerUserList.Add(new PokerUser(client, incomingmessage_callback,username));
+                PokerUser u = new PokerUser(client, incomingmessage_callback, username);
                 return true;
             }
+            return false;
+        }
+        public void AddToList(PokerUser user)
+        {
+            if (user.UserName != "")
+            {
+                if (Exists(user.UserName))
+                {
+                    PokerUser pokeruser = Instance._pokerUserList.Find(a => a.UserName == user.UserName);
+                    pokeruser.ReJoin(user.TcpClient, user.Incomingmessage_callback);
+                }
+                else
+                {
+                    _pokerUserList.Add(user);
+                }
+            }
+        }
+        private bool Exists(string username)
+        {
+            if (Instance._pokerUserList.Exists(a => a.UserName == username))
+                return true;
             return false;
         }
         private bool Authenticate(string username, string encrypted_pwd)

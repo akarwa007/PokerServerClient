@@ -57,6 +57,9 @@ C:\Users\akarwa\Poker\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.Propertie
 C:\Users\akarwa\Poker\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.csproj.GenerateResource.Cache
 C:\Users\akarwa\Poker\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.exe
 C:\Users\akarwa\Poker\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.pdb
+C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.Form1.resources
+C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.Properties.Resources.resources
+C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.csproj.GenerateResource.Cache
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\bin\Debug\Poker.Server.UI.exe.config
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\bin\Debug\Poker.Server.UI.exe
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\bin\Debug\Poker.Server.UI.pdb
@@ -72,8 +75,5 @@ C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\bin\Debug\PokerServer.p
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\bin\Debug\PokerServer.exe.config
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\bin\Debug\Newtonsoft.Json.xml
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.csprojResolveAssemblyReference.cache
-C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.Form1.resources
-C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.Properties.Resources.resources
-C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.csproj.GenerateResource.Cache
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.exe
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.pdb

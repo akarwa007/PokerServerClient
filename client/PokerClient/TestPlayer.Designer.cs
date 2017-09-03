@@ -39,7 +39,7 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(656, 10);
+            this.btnConnect.Location = new System.Drawing.Point(654, 11);
             this.btnConnect.Margin = new System.Windows.Forms.Padding(4);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(140, 38);
@@ -50,7 +50,7 @@
             // 
             // txtReceiever
             // 
-            this.txtReceiever.Location = new System.Drawing.Point(457, 16);
+            this.txtReceiever.Location = new System.Drawing.Point(457, 18);
             this.txtReceiever.Margin = new System.Windows.Forms.Padding(4);
             this.txtReceiever.Name = "txtReceiever";
             this.txtReceiever.Size = new System.Drawing.Size(189, 31);
@@ -70,7 +70,7 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(237, 26);
+            this.lblPassword.Location = new System.Drawing.Point(237, 28);
             this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(77, 16);
@@ -79,7 +79,7 @@
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(96, 20);
+            this.txtUsername.Location = new System.Drawing.Point(97, 25);
             this.txtUsername.Margin = new System.Windows.Forms.Padding(4);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(132, 22);
@@ -88,7 +88,7 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(316, 16);
+            this.txtPassword.Location = new System.Drawing.Point(317, 25);
             this.txtPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(132, 22);
@@ -96,10 +96,10 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(4, 55);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4);
+            this.panel1.Location = new System.Drawing.Point(19, 55);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(799, 289);
+            this.panel1.Size = new System.Drawing.Size(784, 293);
             this.panel1.TabIndex = 15;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 

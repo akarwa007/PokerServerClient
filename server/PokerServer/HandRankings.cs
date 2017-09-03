@@ -11,6 +11,7 @@ namespace Poker.Server
     {
         private Card[] _cards;
         private HandType _handtype;
+        private Rank[] _rank_ordered_significant;
         public HandRankings( Card[] cards)
         {
             if (cards.Length != 5)
@@ -32,6 +33,18 @@ namespace Poker.Server
                 throw new Exception("Index should have been 4");
             CalcHandType();
         }
+        public HandType HandType
+        {
+            get { return _handtype; }
+        }
+        public Card[] Cards
+        {
+            get { return _cards; }
+        }
+        public Rank[] SignificantRankssOrdered
+        {
+            get { return _rank_ordered_significant; }
+        }
         private void CalcHandType()
         {
             var suit_count = _cards.GroupBy(x => x.Suit).Select(g => new {g,g.ToList().Count });
@@ -42,24 +55,19 @@ namespace Poker.Server
             suit_count = suit_count.OrderByDescending(g => g.Count);
             ranks = ranks.OrderByDescending(a => (int)a);
 
+            _rank_ordered_significant = rank_count.Select(a => a.g.Key).ToArray();
+
             Rank highCard;
             bool straight = false;
             bool flush = false;
 
             highCard = ranks.First();
 
-            if ((ranks.First() - ranks.Last()) == 4)
+            if ((rank_count.First().Count == 1) && (((ranks.First() - ranks.Last()) == 4) || ((ranks.Sum(a => (int)a) == 47) && (ranks.First() == Rank.King) && (ranks.Last() == Rank.Ace))))
             {
                 straight = true;
                 _handtype = HandType.STRAIGHT;
-                Console.WriteLine("its a straight");
-            }
-
-            if ((ranks.First() == Rank.King) && (ranks.Last() == Rank.Ace))
-            {
-                straight = true;
-                _handtype = HandType.STRAIGHT;
-                Console.WriteLine("its also a straight");
+               // Console.WriteLine("its a straight");
             }
 
             if (suit_count.First().Count == 5)
@@ -67,21 +75,21 @@ namespace Poker.Server
                 // hand type can be flush , straight flush or royal flush
                 if (straight)
                 {
-                    if (ranks.Last() == Rank.Ace)
+                    if ((ranks.Last() == Rank.Ace) && (ranks.First() == Rank.King))
                     {
                         _handtype = HandType.ROYAL_FLUSH;
-                        Console.WriteLine("its a royal flush");
+                      //  Console.WriteLine("its a royal flush");
                     }
                     else
                     {
                         _handtype = HandType.STRAIGHT_FLUSH;
-                        Console.WriteLine("its a straight flush");
+                        //Console.WriteLine("its a straight flush");
                     }
                 }
                 else
                 {
                     _handtype = HandType.FLUSH;
-                    Console.WriteLine("its a flush");
+                    //Console.WriteLine("its a flush");
                 }
                
             }
@@ -90,31 +98,31 @@ namespace Poker.Server
             if (rank_count.First().Count == 4)
             {
                 _handtype = HandType.FOUR_OF_A_KIND;
-                Console.WriteLine("its a four of a kind");
+                //Console.WriteLine("its a four of a kind");
             
             }
             if ((rank_count.First().Count == 3) && (rank_count.Count() == 2))
             {
                 _handtype = HandType.FULL_HOUSE;
-                Console.WriteLine("its a full house");
+                //Console.WriteLine("its a full house");
 
             }
             if ((rank_count.First().Count == 3) && (rank_count.Count() == 3))
             {
                 _handtype = HandType.THREE_OF_A_KIND;
-                Console.WriteLine("its a three of a kind");
+                //Console.WriteLine("its a three of a kind");
 
             }
             if ((rank_count.First().Count == 2) && (rank_count.Count() == 3))
             {
                 _handtype = HandType.TWO_PAIR;
-                Console.WriteLine("its a two pair");
+                //Console.WriteLine("its a two pair");
 
             }
             if ((rank_count.First().Count == 2) && (rank_count.Count() == 4))
             {
                 _handtype = HandType.ONE_PAIR;
-                Console.WriteLine("its a one pair");
+                //Console.WriteLine("its a one pair");
 
             }
            
@@ -124,7 +132,7 @@ namespace Poker.Server
     }
     public enum HandType
     {
-        STANDARD,
+        STANDARD = 0,
         ONE_PAIR,
         TWO_PAIR,
         THREE_OF_A_KIND,

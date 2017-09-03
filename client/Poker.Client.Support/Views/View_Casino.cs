@@ -26,7 +26,13 @@ namespace Poker.Client.Support.Views
         {
             this.DoubleBuffered = true;
             InitializeComponent();
-           
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            this.splitContainer2.Panel1.Controls.Add(this.treeView1);
+            this.splitContainer2.Panel2.Controls.Add(this.txtPlayerProfile);
+            this.splitContainer1.Dock = DockStyle.Fill;
+            this.splitContainer2.SplitterDistance = this.splitContainer2.Height - this.txtPlayerProfile.Height;
+            this.txtPlayerProfile.Dock = DockStyle.Fill;
+            this.treeView1.Dock = DockStyle.Fill;
         }
        public string UserName
         {
@@ -89,7 +95,12 @@ namespace Poker.Client.Support.Views
         }
         private void PlayeActionMessage(Poker.Shared.Message message)
         {
-
+            string[] arr = message.Content.Split(':');
+            string tableno = arr[0];
+            lock (this.BetEvent)
+            {
+                this.BetEvent[tableno].Invoke(message);
+            }
         }
         private void CardEventMessage(Poker.Shared.Message message)
         {
@@ -127,6 +138,8 @@ namespace Poker.Client.Support.Views
                 CardEventMessage(m);
             else if (m.MessageType == MessageType.TableSendRiver)
                 CardEventMessage(m);
+            else if (m.MessageType == MessageType.PlayerAction) // when a player on a table bets/calls/folds, that message is received by all users on the table
+                PlayeActionMessage(m);
         }
         private void ClearTreeView()
         {
@@ -342,6 +355,11 @@ namespace Poker.Client.Support.Views
             {
                 e.Effect = DragDropEffects.None;
             }
+        }
+
+        private void splitContainer2_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
