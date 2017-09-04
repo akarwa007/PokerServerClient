@@ -16,6 +16,7 @@ namespace Poker.Server
         private Tuple<Card, Card> _holecards;
         private bool _playerStillInHand = false;
         public bool _playerplayedingame = false;
+        private Dictionary<string, decimal> _postedBet = new Dictionary<string, decimal>();
         private Table _table;
         private PokerUser _pokeruser;
         public event Action<Player,Poker.Shared.Message> PlayerAction;
@@ -30,7 +31,14 @@ namespace Poker.Server
         {
             PlayerAction += MessageFactory.SendMessageToPlayer;
         }
-      
+        public void resetPostedBets()
+        {
+            _postedBet.Clear();
+            _postedBet["preflop"] = 0;
+            _postedBet["postflop"] = 0;
+            _postedBet["postturn"] = 0;
+            _postedBet["postriver"] = 0;
+        }
         public PokerUser PokerUser
         {
             get
@@ -65,7 +73,7 @@ namespace Poker.Server
         {
             _holecards = null;
             _playerStillInHand = false;
-
+            resetPostedBets();
         }
         public void AssignDealerButton(int seatno)
         {
@@ -100,9 +108,10 @@ namespace Poker.Server
         {
             _playerStillInHand = false;
         }
-        public void Bet(decimal betamount)
+        public void Bet(decimal betamount, string gameStage)
         {
             RemoveMoney(betamount);
+            _postedBet[gameStage] += betamount;
         }
         public void AddMoney(decimal money)
         {
@@ -112,6 +121,10 @@ namespace Poker.Server
                     throw new Exception("Money cannot be negative");
                 this._chipcount += money;
             }
+        }
+        public decimal getPostedBetSoFar(string gameStage) // gameStage is preflp , flop , turn , river
+        {
+            return _postedBet[gameStage];
         }
         public void RemoveMoney(decimal money)
         {

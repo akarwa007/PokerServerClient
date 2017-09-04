@@ -51,11 +51,11 @@ namespace Poker.Server
                 user.SendMessage(m);
             }
         }
-        public static void RequestAction(Table t, Player p, string comment)
+        public static void RequestAction(Table t, Player p, string gameStage)
         {
             // this will wait with the client player and seek an action 
             Message m = new Message("RequestBet", MessageType.PlayerActionRequestBet);
-            m.Content = t.TableNo + ":" + t.GetPotSize().ToString() + ":"  + t.GetCurrentMinBet().ToString() + ":" + t.GetCurrentMaxRaisingBet().ToString() + ":" + comment; // Add more elements like min and max bet size etc later
+            m.Content = t.TableNo + ":" + t.GetPotSize().ToString() + ":"  + p.getPostedBetSoFar(gameStage) + ":" + t.GetCurrentMinBet().ToString() + ":" + t.GetCurrentMaxRaisingBet().ToString() + ":" + gameStage; // Add more elements like min and max bet size etc later
             lock (t) // this will synchronize this call with any previous pending call to SendToTablePlayers
             {
                 SendMessageToPlayer(p, m);

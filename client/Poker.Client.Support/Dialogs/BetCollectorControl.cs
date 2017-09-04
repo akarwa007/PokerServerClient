@@ -59,7 +59,7 @@ namespace Poker.Client.Support.Dialogs
 
         private void btnCall_Click(object sender, EventArgs e)
         {
-            _vm.setBetChoosen(_vm.CurrentBet);
+            _vm.setBetChoosen(_vm.CurrentBet-_vm.PostedBet);
             this.txtBetAmount.Text = _vm.BetChoosen.ToString();
             this.DialogResult = DialogResult.OK;
         }
@@ -177,7 +177,7 @@ namespace Poker.Client.Support.Dialogs
                 //Views.View_Table vt = (Views.View_Table)this.Parent;
                 //vt.threadSync.Set();
             });
-            this.DialogResult = DialogResult.OK;
+            this.DialogResult = DialogResult.Cancel;
         }
 
        

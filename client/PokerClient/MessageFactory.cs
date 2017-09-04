@@ -26,9 +26,9 @@ namespace PokerClient
             }
            // Console.WriteLine("MessageFactory:Sent TableJoin Message for user " + this._user.UserName);
         }
-        public void SendReceiveBetMessage(string TableNo, decimal ChipCount)
+        public void SendReceiveBetMessage(string TableNo, decimal ChipCount, string gameStage)
         {
-            string content = TableNo + ":" + ChipCount;
+            string content = TableNo + ":" + ChipCount + ":" + gameStage;
             Poker.Shared.Message m = new Poker.Shared.Message(content, MessageType.PlayerAction);
             if (_user != null)
             {

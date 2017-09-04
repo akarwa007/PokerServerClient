@@ -304,10 +304,10 @@ namespace Poker.Client.Support.Views
             if (JoinedTableEvent != null)
                 JoinedTableEvent.Invoke(TableNo, SeatNo, ChipCounts);
         }
-        private void Vt_ReceiveBetEvent(string TableNo, decimal ChipCounts)
+        private void Vt_ReceiveBetEvent(string TableNo, decimal ChipCounts, string gameStage)
         {
             if (ReceiveBetEvent != null)
-                ReceiveBetEvent.Invoke(TableNo, ChipCounts);
+                ReceiveBetEvent.Invoke(TableNo, ChipCounts,gameStage);
         }
 
         private void splitContainer1_Panel2_SizeChanged(object sender, EventArgs e)

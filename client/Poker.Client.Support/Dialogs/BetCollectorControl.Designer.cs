@@ -41,6 +41,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelCounter = new System.Windows.Forms.Label();
             this.labelUserName = new System.Windows.Forms.Label();
+            this.labelTimeLeft = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -113,10 +114,10 @@
             // 
             // btnFold
             // 
-            this.btnFold.BackColor = System.Drawing.Color.Maroon;
+            this.btnFold.BackColor = System.Drawing.Color.Red;
             this.btnFold.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnFold.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnFold.Location = new System.Drawing.Point(74, 100);
+            this.btnFold.Location = new System.Drawing.Point(74, 103);
             this.btnFold.Margin = new System.Windows.Forms.Padding(2);
             this.btnFold.Name = "btnFold";
             this.btnFold.Size = new System.Drawing.Size(56, 19);
@@ -127,10 +128,10 @@
             // 
             // btnCall
             // 
-            this.btnCall.BackColor = System.Drawing.Color.Maroon;
+            this.btnCall.BackColor = System.Drawing.Color.Green;
             this.btnCall.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCall.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnCall.Location = new System.Drawing.Point(135, 100);
+            this.btnCall.Location = new System.Drawing.Point(135, 102);
             this.btnCall.Margin = new System.Windows.Forms.Padding(2);
             this.btnCall.Name = "btnCall";
             this.btnCall.Size = new System.Drawing.Size(56, 19);
@@ -141,15 +142,15 @@
             // 
             // btnRaiseTo
             // 
-            this.btnRaiseTo.BackColor = System.Drawing.Color.Maroon;
+            this.btnRaiseTo.BackColor = System.Drawing.Color.Blue;
             this.btnRaiseTo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRaiseTo.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnRaiseTo.Location = new System.Drawing.Point(195, 100);
+            this.btnRaiseTo.Location = new System.Drawing.Point(195, 103);
             this.btnRaiseTo.Margin = new System.Windows.Forms.Padding(2);
             this.btnRaiseTo.Name = "btnRaiseTo";
             this.btnRaiseTo.Size = new System.Drawing.Size(56, 19);
             this.btnRaiseTo.TabIndex = 7;
-            this.btnRaiseTo.Text = "Raise To";
+            this.btnRaiseTo.Text = "Bet";
             this.btnRaiseTo.UseVisualStyleBackColor = false;
             this.btnRaiseTo.Click += new System.EventHandler(this.btnRaiseTo_Click);
             // 
@@ -170,7 +171,7 @@
             this.labelCounter.AutoSize = true;
             this.labelCounter.BackColor = System.Drawing.Color.Black;
             this.labelCounter.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.labelCounter.Location = new System.Drawing.Point(12, 83);
+            this.labelCounter.Location = new System.Drawing.Point(76, 83);
             this.labelCounter.Name = "labelCounter";
             this.labelCounter.Size = new System.Drawing.Size(25, 13);
             this.labelCounter.TabIndex = 9;
@@ -180,12 +181,25 @@
             // 
             this.labelUserName.AutoSize = true;
             this.labelUserName.BackColor = System.Drawing.Color.Silver;
-            this.labelUserName.ForeColor = System.Drawing.Color.Lime;
+            this.labelUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserName.ForeColor = System.Drawing.Color.Black;
             this.labelUserName.Location = new System.Drawing.Point(12, 106);
             this.labelUserName.Name = "labelUserName";
-            this.labelUserName.Size = new System.Drawing.Size(35, 13);
+            this.labelUserName.Size = new System.Drawing.Size(40, 13);
             this.labelUserName.TabIndex = 10;
             this.labelUserName.Text = "empty";
+            // 
+            // labelTimeLeft
+            // 
+            this.labelTimeLeft.AutoSize = true;
+            this.labelTimeLeft.BackColor = System.Drawing.Color.Silver;
+            this.labelTimeLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTimeLeft.ForeColor = System.Drawing.Color.Black;
+            this.labelTimeLeft.Location = new System.Drawing.Point(10, 83);
+            this.labelTimeLeft.Name = "labelTimeLeft";
+            this.labelTimeLeft.Size = new System.Drawing.Size(60, 13);
+            this.labelTimeLeft.TabIndex = 11;
+            this.labelTimeLeft.Text = "Time Left";
             // 
             // BetCollectorControl
             // 
@@ -193,6 +207,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(271, 132);
+            this.Controls.Add(this.labelTimeLeft);
             this.Controls.Add(this.labelUserName);
             this.Controls.Add(this.labelCounter);
             this.Controls.Add(this.txtBetAmount);
@@ -227,5 +242,6 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label labelCounter;
         private System.Windows.Forms.Label labelUserName;
+        private System.Windows.Forms.Label labelTimeLeft;
     }
 }

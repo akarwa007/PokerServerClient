@@ -116,6 +116,7 @@ namespace Poker.Server
                         string[] arr = m.Content.Split(':');
                         string tableNo = arr[0];
                         decimal betsize = Convert.ToDecimal(arr[1]);
+                        string gameStage = arr[2];
 
                         Table t = TableManager.Instance.GetTable(tableNo);
                         // set the wait to the receieve action for the player
@@ -132,10 +133,12 @@ namespace Poker.Server
                             {
                                 // update player bank account
                                 PlayerBankingService.Instance().UpdateBankBalanceInUse(this.UserName, betsize);
+                                // updated player posted bet
+                                p.Bet(betsize, gameStage);
                                 //update pot size
                                 t.AddToPot(betsize,p);
                                 //update calling bet size
-                                t.SetCurrentMinBet(betsize);
+                                t.SetCurrentMinBet(p.getPostedBetSoFar(gameStage));
                                 //send message to other plaeyrs on the table about the action from this user
                                 Message m1 = new Message("Calls 10", MessageType.PlayerAction);
                                 m1.Content = t.TableNo + ":" + t.GetPlayerSeatNo(p).ToString() + ":" + "Calls " + betsize.ToString();

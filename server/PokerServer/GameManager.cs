@@ -50,7 +50,7 @@ namespace Poker.Server
         }
         private void Start()
         {
-            if (!((_table.SeatedPlayerCount() >= 2) && (!_GameInPogress)))
+            if (!((_table.SeatedPlayerCount() >= 3) && (!_GameInPogress)))
                 return;
                
             if ((_game == null) || (_table == null))
@@ -87,18 +87,22 @@ namespace Poker.Server
                 // do bet collecting round 
                 _table.ResetToUTG();
                 playercount = _table.PlayingPlayerCount();
-                while (playercount > 0)
+                //while (playercount > 0)
+                while(playercount > 0)
                 {
                     Player player = _table.GetNextPlayer();
-                    if (player.InHand)
+                    if (player.InHand) 
                     {
+                        if (player.getPostedBetSoFar("preflop") == _table.GetCurrentMinBet())
+                            break; // All players have posted their bets to completion
                         lock (_table.SynchronizeGame)
                         {
                             MessageFactory.RequestAction(_table, player, "preflop");
                             Monitor.Wait(_table.SynchronizeGame, timespan);
                         }
                     }
-                    playercount--;
+                    //playercount--;
+                    playercount = _table.PlayingPlayerCount();
                 }
 
                 // deal the flop 
@@ -108,19 +112,23 @@ namespace Poker.Server
                 // do bet collecting round
 
                 _table.ResetToSmallBlind();
+                _table.ResetMinBet();
                 playercount = _table.PlayingPlayerCount();
                 while (playercount > 0)
                 {
                     Player player = _table.GetNextPlayer();
                     if (player.InHand)
                     {
+                        if (player.getPostedBetSoFar("postflop") == _table.GetCurrentMinBet())
+                            break; // All players have posted their bets to completion
                         lock (_table.SynchronizeGame)
                         {
                             MessageFactory.RequestAction(_table, player, "postflop");
                             Monitor.Wait(_table.SynchronizeGame, timespan);
                         }
                     }
-                    playercount--;
+                    //playercount--;
+                    playercount = _table.PlayingPlayerCount();
                 }
                 //deal the turn 
                 Card turn = _game.GetTurn();
@@ -129,19 +137,23 @@ namespace Poker.Server
                 // do bet collecting round
 
                 _table.ResetToSmallBlind();
+                _table.ResetMinBet();
                 playercount = _table.PlayingPlayerCount();
                 while (playercount > 0)
                 {
                     Player player = _table.GetNextPlayer();
                     if (player.InHand)
                     {
+                        if (player.getPostedBetSoFar("postturn") == _table.GetCurrentMinBet())
+                            break; // All players have posted their bets to completion
                         lock (_table.SynchronizeGame)
                         {
                             MessageFactory.RequestAction(_table, player, "postturn");
                             Monitor.Wait(_table.SynchronizeGame, timespan);
                         }
                     }
-                    playercount--;
+                    //playercount--;
+                    playercount = _table.PlayingPlayerCount();
                 }
 
                 // deal the river
@@ -151,19 +163,23 @@ namespace Poker.Server
                 // do the bet collecting round
 
                 _table.ResetToSmallBlind();
+                _table.ResetMinBet();
                 playercount = _table.PlayingPlayerCount();
                 while (playercount > 0)
                 {
                     Player player = _table.GetNextPlayer();
                     if (player.InHand)
                     {
+                        if (player.getPostedBetSoFar("postriver") == _table.GetCurrentMinBet())
+                            break; // All players have posted their bets to completion
                         lock (_table.SynchronizeGame)
                         {
                             MessageFactory.RequestAction(_table, player, "postriver");
                             Monitor.Wait(_table.SynchronizeGame, timespan);
                         }
                     }
-                    playercount--;
+                    //playercount--;
+                    playercount = _table.PlayingPlayerCount();
                 }
                 // announce the winner
                _game.SetGameState("Ending");

@@ -20,6 +20,8 @@ namespace Poker.Server
         private string _gameSubName; // e.g No Limit
         private string _gameValue; // e.g  2-5
         private string _tableNo; // e.g 45
+        private decimal _smallBlind;
+        private decimal _bigBlind;
         private Game _game;
         private GameManager _gameManager;
         public static int TableNumber = 1;
@@ -31,9 +33,9 @@ namespace Poker.Server
             _gameName = gamename;
             _gameSubName = gamesubname;
             _gameValue = gamevalue;
-            decimal small = Convert.ToDecimal(_gameValue.Split('-')[0]);
-            decimal big = Convert.ToDecimal(_gameValue.Split('-')[1]);
-            _game = new Game(minchips, maxchips,small,big);
+            _smallBlind = Convert.ToDecimal(_gameValue.Split('-')[0]);
+            _bigBlind = Convert.ToDecimal(_gameValue.Split('-')[1]);
+            _game = new Game(minchips, maxchips,_smallBlind,_bigBlind);
             _gameManager = new GameManager(_game, this);
             _tableNo = "Table" + Table.TableNumber++;
             TableUpdatedEvent += tableUpdateEventHandler;
@@ -351,6 +353,10 @@ namespace Poker.Server
         public void ResetToSmallBlind()
         {
             this._currentPosition = this.DealerPosition;
+        }
+        public void ResetMinBet()
+        {
+            this._game.MinCallingBetSize = _bigBlind;
         }
         public void ResetToUTG()
         {

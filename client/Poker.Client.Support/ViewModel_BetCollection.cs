@@ -14,6 +14,10 @@ namespace Poker.Client.Support
         {
 
         }
+        public decimal PostedBet
+        {
+            get; set;
+        }
         public decimal CurrentBet
         {
             get; set;

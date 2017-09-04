@@ -109,12 +109,6 @@ namespace Poker.Client.Support.Views
                     btnRaise.BringToFront();
                }
 
-
-                
-                btnFold.Click += Fold_Click;
-                btnCall.Click += Call_Click;
-                btnRaise.Click += Raise_Click;
-
                 labelChipsCount.Dock = DockStyle.Bottom;
                 labelChipsCount.Font = new Font("Arial", 6, FontStyle.Bold);
                 //labelChipsCount.Height = 12;
@@ -320,24 +314,7 @@ namespace Poker.Client.Support.Views
             this.labelChipsCount.Text = swapped;
             this.labelChipsCount.BackColor = origColor;
         }
-        private void Fold_Click(object sender, EventArgs e)
-        {
-            if (this.ReceiveBetEvent != null)
-                this.ReceiveBetEvent.Invoke(this._vm_seat.TableNo, -1);
-            StopTimer();
-        }
-        private void Call_Click(object sender, EventArgs e)
-        {
-            if (this.ReceiveBetEvent != null)
-                this.ReceiveBetEvent.Invoke(this._vm_seat.TableNo, 0);
-            StopTimer();
-        }
-        private void Raise_Click(object sender, EventArgs e)
-        {
-            if (this.ReceiveBetEvent != null)
-                this.ReceiveBetEvent.Invoke(this._vm_seat.TableNo, 1);
-            StopTimer();
-        }
+     
         private void btnJoinLeave_Click(object sender, EventArgs e)
         {// this button click flips the Joined boolean property. 
                  

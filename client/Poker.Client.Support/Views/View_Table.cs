@@ -297,10 +297,10 @@ namespace Poker.Client.Support.Views
             if (JoinedTableEvent != null)
                 JoinedTableEvent.Invoke(TableNo, SeatNo, ChipCounts);
         }
-        private void Seat_ReceiveBetEvent(string TableNo, decimal ChipCounts)
+        private void Seat_ReceiveBetEvent(string TableNo, decimal ChipCounts, string gameStage)
         {
             if (ReceiveBetEvent != null)
-                ReceiveBetEvent.Invoke(TableNo, ChipCounts);
+                ReceiveBetEvent.Invoke(TableNo, ChipCounts,gameStage);
         }
         public void ProcessMessage(Poker.Shared.Message message)
         {
@@ -454,13 +454,15 @@ namespace Poker.Client.Support.Views
                 string[] arr = m.Content.Split(':');
                 string tableno = arr[0];
                 decimal potsize = Convert.ToDecimal(arr[1]);
-                decimal currentbet = Convert.ToDecimal(arr[2]);
-                decimal maxraisebet = Convert.ToDecimal(arr[3]);
+                decimal postedbet = Convert.ToDecimal(arr[2]);
+                decimal currentbet = Convert.ToDecimal(arr[3]);
+                decimal maxraisebet = Convert.ToDecimal(arr[4]);
                 decimal minbet = this._vm_table.getBigBlindAmount();
-                string comment = arr[4];
+                string gameStage = arr[5];
+                vm_bc.PostedBet = postedbet;
                 vm_bc.CurrentBet = currentbet;
                 vm_bc.PotValue = potsize;
-                vm_bc.MinBetAllowed = Math.Max(minbet, currentbet);
+                vm_bc.MinBetAllowed = Math.Max(minbet, currentbet-postedbet);
                 vm_bc.UserName = this.UserName;
                 decimal betmade = 0;
                 this.Invoke((MethodInvoker)delegate
@@ -480,7 +482,7 @@ namespace Poker.Client.Support.Views
                             betmade = x1.getModel().BetChoosen;
                     }
                 });
-                this.ReceiveBetEvent.Invoke(this._vm_table.TableNo, betmade);
+                this.ReceiveBetEvent.Invoke(this._vm_table.TableNo, betmade, gameStage);
                 Console.WriteLine("OnReceiveRequestBet " + m.Content);
             }
             
