@@ -105,16 +105,23 @@ namespace Poker.Server
                     playercount = _table.PlayingPlayerCount();
                 }
 
+
+                playercount = _table.PlayingPlayerCount();
+
+
                 // deal the flop 
-                Tuple<Card, Card, Card> flop = _game.GetFlop();
-                MessageFactory.SendFlop(_table, flop);
+                if (playercount > 1)
+                {
+                    Tuple<Card, Card, Card> flop = _game.GetFlop();
+                    MessageFactory.SendFlop(_table, flop);
+                }
 
                 // do bet collecting round
 
                 _table.ResetToSmallBlind();
                 _table.ResetMinBet();
-                playercount = _table.PlayingPlayerCount();
-                while (playercount > 0)
+                
+                while (playercount > 1)
                 {
                     Player player = _table.GetNextPlayer();
                     if (player.InHand)
@@ -130,16 +137,20 @@ namespace Poker.Server
                     //playercount--;
                     playercount = _table.PlayingPlayerCount();
                 }
-                //deal the turn 
-                Card turn = _game.GetTurn();
-                MessageFactory.SendTurn(_table, turn);
 
+                playercount = _table.PlayingPlayerCount();
+                //deal the turn 
+                if (playercount > 1)
+                {
+                    Card turn = _game.GetTurn();
+                    MessageFactory.SendTurn(_table, turn);
+                }
                 // do bet collecting round
 
                 _table.ResetToSmallBlind();
                 _table.ResetMinBet();
-                playercount = _table.PlayingPlayerCount();
-                while (playercount > 0)
+                
+                while (playercount > 1)
                 {
                     Player player = _table.GetNextPlayer();
                     if (player.InHand)
@@ -156,16 +167,19 @@ namespace Poker.Server
                     playercount = _table.PlayingPlayerCount();
                 }
 
+                playercount = _table.PlayingPlayerCount();
                 // deal the river
-                Card river = _game.GetRiver();
-                MessageFactory.SendRiver(_table, river);
-
+                if (playercount > 1)
+                {
+                    Card river = _game.GetRiver();
+                    MessageFactory.SendRiver(_table, river);
+                }
                 // do the bet collecting round
 
                 _table.ResetToSmallBlind();
                 _table.ResetMinBet();
-                playercount = _table.PlayingPlayerCount();
-                while (playercount > 0)
+                
+                while (playercount > 1)
                 {
                     Player player = _table.GetNextPlayer();
                     if (player.InHand)

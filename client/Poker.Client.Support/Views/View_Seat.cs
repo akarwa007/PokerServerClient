@@ -83,7 +83,7 @@ namespace Poker.Client.Support.Views
                 btnRaise.Size = new Size(this.btnJoinLeave.Width, this.btnJoinLeave.Height);
                 btnRaise.Location = new Point(this.btnCall.Left + this.btnCall.Width, this.Top + this.Height);
                 btnDealer.Size = new Size(this.btnJoinLeave.Width/2, this.btnJoinLeave.Height);
-                btnDealer.Location = new Point(this.btnCall.Left + this.btnCall.Width/2-btnDealer.Width/2, this.Top + this.Height+btnDealer.Height);
+                btnDealer.Location = new Point(this.Left, this.Top + this.Height);
 
                 bool visible = true;
                 btnFold.BackColor = Color.LightGreen;

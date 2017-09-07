@@ -140,8 +140,8 @@ namespace Poker.Server
                                 //update calling bet size
                                 t.SetCurrentMinBet(p.getPostedBetSoFar(gameStage));
                                 //send message to other plaeyrs on the table about the action from this user
-                                Message m1 = new Message("Calls 10", MessageType.PlayerAction);
-                                m1.Content = t.TableNo + ":" + t.GetPlayerSeatNo(p).ToString() + ":" + "Calls " + betsize.ToString();
+                                Message m1 = new Message("Bets "+betsize.ToString(), MessageType.PlayerAction);
+                                m1.Content = t.TableNo + ":" + t.GetPlayerSeatNo(p).ToString() + ":" + "Calls " + betsize.ToString() + ":" + t.GetPotSize().ToString();
                                 MessageFactory.SendToTablePlayers(t, m1);
                             }
                             Monitor.PulseAll(t.SynchronizeGame);

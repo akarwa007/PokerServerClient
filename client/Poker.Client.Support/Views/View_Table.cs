@@ -24,6 +24,7 @@ namespace Poker.Client.Support.Views
 
         View_Card VCard_flop1, VCard_flop2, VCard_flop3, VCard_turn, VCard_river;
         Label lflop1, lflop2, lflop3, lturn, lriver;
+        Label lPotValue;
         short myseat = -1; // means not occupying any seat
         Dictionary<short, View_Seat> Dict_View_Seats = new Dictionary<short, View_Seat>();
 
@@ -170,6 +171,13 @@ namespace Poker.Client.Support.Views
                 lriver.TextAlign = ContentAlignment.MiddleCenter;
                 lriver.Location = new Point(seatloc_5_x, yy);
                 this.Controls.Add(lriver);
+
+                lPotValue = new Label();
+                lPotValue.TextAlign = ContentAlignment.MiddleCenter;
+                lPotValue.Font = new Font("Arial", 8, FontStyle.Bold);
+                lPotValue.Text = "Pot Size = 0";
+                lPotValue.Location = new Point(seatloc_3_x, y1 / 2 - seatheight / 2 - 24);
+                this.Controls.Add(lPotValue);
 
                 Label l1, l2, l3;
                 l1 = new Label();
@@ -459,6 +467,7 @@ namespace Poker.Client.Support.Views
                 decimal maxraisebet = Convert.ToDecimal(arr[4]);
                 decimal minbet = this._vm_table.getBigBlindAmount();
                 string gameStage = arr[5];
+                
                 vm_bc.PostedBet = postedbet;
                 vm_bc.CurrentBet = currentbet;
                 vm_bc.PotValue = potsize;
@@ -467,6 +476,7 @@ namespace Poker.Client.Support.Views
                 decimal betmade = 0;
                 this.Invoke((MethodInvoker)delegate
                 {
+                    this.lPotValue.Text = "Pot = " + potsize.ToString();
                     using (Dialogs.BetCollectorControl x1 = new Dialogs.BetCollectorControl(vm_bc))
                     {
                         x1.StartPosition = FormStartPosition.Manual;
@@ -491,15 +501,19 @@ namespace Poker.Client.Support.Views
         public void OnReceivePlayerAction(Shared.Message m)
         {
             //if (MySeatNo > 0)
-            {
+            
                 string[] arr = m.Content.Split(':');
                 string tableno = arr[0];
                 short seatno = Convert.ToInt16(arr[1]);
                 string action = arr[2];
+                string potsize = arr[3];
                 // Need to change this to assign to the view model of the seat rather than the view of the seat.
                 this.simulatePlayerAction = seatno;
                 Dict_View_Seats[seatno].SimulatePlayerAction(action);
-            }
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.lPotValue.Text = "Pot = " + potsize.ToString();
+                });
             Console.WriteLine("OnReceivePlayerAction " + m.Content);
         }
 
