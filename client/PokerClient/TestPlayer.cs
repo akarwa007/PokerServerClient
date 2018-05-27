@@ -126,57 +126,61 @@ namespace PokerClient
         }
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            Task.Run(() =>
-           {
-               if ((_client == null) || (_client.Connected == false))
-               {
-                   int max_attempts = 5;
-                   int attempts = 0;
-                   while ((attempts < max_attempts) && (!((_client != null) && (_client.Connected))))
-                   {
-                       attempts++;
-                       try
-                       {
-                           _client = new TcpClient("localhost", 8113);
-                       }
-                       catch (Exception ee)
-                       {
-                           AppendTextBox(this.txtReceiever, new Poker.Shared.Message(ee.Message, MessageType.GeneralPurpose));
-                           Console.WriteLine("Attempt " + attempts.ToString() + "--" + ee.Message);
-                       }
-
-                       if ((_client != null) && (_client.Connected))
-                       {
-                           this.Connected = true;
-                           string content = txtUsername.Text + ":" + txtPassword.Text;
-                           //_firstMessage = new Poker.Shared.Message(content, MessageType.PlayerSigningIn);
-                           //_queue_outgoing.Enqueue(_firstMessage);
-                           init(txtUsername.Text, txtPassword.Text);
-                           break;
-                       }
-                       Thread.Sleep(5000); // Sleep for 5 seconds before another attempt
-                   }
-
-               }
-               else // you want to disconnect
-                {
-                   _client.Close();
-                   if (_client.Connected == false)
-                   {
-                       this.Connected = false;
-                     // do some disconnect code
-                   }
-               }
-               if (!((_client != null) && (_client.Connected)))
-               {
-                   AppendTextBox(this.txtReceiever, new Poker.Shared.Message("All attempts failed to connect", MessageType.GeneralPurpose));
-                   Console.WriteLine("All attempts failed to connect");
-
-               }
-           });
-            
+            ConnectToServer();
         }
-        
+        public void ConnectToServer()
+        {
+            Task.Run(() =>
+            {
+                if ((_client == null) || (_client.Connected == false))
+                {
+                    int max_attempts = 5;
+                    int attempts = 0;
+                    while ((attempts < max_attempts) && (!((_client != null) && (_client.Connected))))
+                    {
+                        attempts++;
+                        try
+                        {
+                            _client = new TcpClient("localhost", 8113);
+                        }
+                        catch (Exception ee)
+                        {
+                            AppendTextBox(this.txtReceiever, new Poker.Shared.Message(ee.Message, MessageType.GeneralPurpose));
+                            Console.WriteLine("Attempt " + attempts.ToString() + "--" + ee.Message);
+                        }
+
+                        if ((_client != null) && (_client.Connected))
+                        {
+                            this.Connected = true;
+                            string content = txtUsername.Text + ":" + txtPassword.Text;
+                            //_firstMessage = new Poker.Shared.Message(content, MessageType.PlayerSigningIn);
+                            //_queue_outgoing.Enqueue(_firstMessage);
+                            init(txtUsername.Text, txtPassword.Text);
+                            break;
+                        }
+                        Thread.Sleep(5000); // Sleep for 5 seconds before another attempt
+                    }
+
+                }
+                else // you want to disconnect
+                {
+                    _client.Close();
+                    if (_client.Connected == false)
+                    {
+                        this.Connected = false;
+                        // do some disconnect code
+                    }
+                }
+                if (!((_client != null) && (_client.Connected)))
+                {
+                    AppendTextBox(this.txtReceiever, new Poker.Shared.Message("All attempts failed to connect", MessageType.GeneralPurpose));
+                    Console.WriteLine("All attempts failed to connect");
+
+                }
+            });
+
+        }
+
         public void AppendTextBox(RichTextBox txtbox, Poker.Shared.Message value)
         {
             if (this.InvokeRequired)

@@ -196,7 +196,26 @@ namespace Poker.Server
                     playercount = _table.PlayingPlayerCount();
                 }
                 // announce the winner
-               _game.SetGameState("Ending");
+                playercount = _table.PlayingPlayerCount();
+                List<HandRankings> playerhands = new List<HandRankings>();
+                while (playercount > 0)
+                {
+                    Player player = _table.GetNextPlayer();
+                    if (player.InHand)
+                    {
+                        HandRankings besthand = HandRankings.ComputeBestHand(player, _game.GetBoard());
+                        playerhands.Add(besthand);
+                    }
+                    playercount--;
+                }
+                if (playerhands.Count > 0)
+                {
+                    List<HandRankings> hlist = playerhands.Select(a => a).ToList<HandRankings>();
+                    hlist.Sort(new HandComparer());
+                    _game.setWinningHand(hlist[hlist.Count - 1]);
+                }
+                _game.SetGameState("Ending");
+                MessageFactory.SendWinningHand(_table, _game.WinningHand);
                 MessageFactory.SendGameUpdateMessage(_table);
                 _GameInPogress = false;
                 _table.AdvanceDealerPosition();

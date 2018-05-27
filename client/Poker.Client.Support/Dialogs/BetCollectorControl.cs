@@ -7,33 +7,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Poker.Client.Support.Dialogs
 {
-    public partial class BetCollectorControl : Form
+    public partial class BetCollectorControl : UserControl
     {
         ViewModel_BetCollection _vm;
         int multiplier = 1;
         int counter = 0;
+        ManualResetEvent sync1;
        
-        public BetCollectorControl(ViewModel_BetCollection vm)
+        public BetCollectorControl()
+        {
+            InitializeComponent();
+            HandleCreated += BetCollectorControl_HandleCreated;
+            //Thread.Sleep(5000);
+        }
+        public void start(ViewModel_BetCollection vm, ManualResetEvent sync)
         {
             _vm = vm;
             multiplier = 1;
-            multiplier = _vm.CurrentBet < 1 ? 100 : 1; 
-            InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            multiplier = _vm.CurrentBet < 1 ? 100 : 1;
+            
+            //this.FormBorderStyle = FormBorderStyle.None;
+            //this.MaximizeBox = false;
+            //this.MinimizeBox = false;
             // Remove the control box so the form will only display client area.
-            this.ControlBox = false;
+            //this.ControlBox = false;
+            sync1 = sync;
             init();
-            HandleCreated += BetCollectorControl_HandleCreated;
         }
 
         private void BetCollectorControl_HandleCreated(object sender, EventArgs e)
         {
-            SimulateRequestBet1();
+            //SimulateRequestBet1();
         }
 
         private void init()
@@ -43,7 +51,9 @@ namespace Poker.Client.Support.Dialogs
             txtBetAmount.Text = _vm.MinBetAllowed.ToString();
             labelUserName.Text = this._vm.UserName;
             _vm.setBetChoosen(-1);
-            //SimulateRequestBet1();
+            SimulateRequestBet1();
+
+
         }
         private void BetCollectorControl_Load(object sender, EventArgs e)
         {
@@ -54,14 +64,16 @@ namespace Poker.Client.Support.Dialogs
         {
             _vm.setBetChoosen(-1);
             this.txtBetAmount.Text = _vm.BetChoosen.ToString();
-            this.DialogResult = DialogResult.OK;
+            sync1.Set();
+           // this.DialogResult = DialogResult.OK;
         }
 
         private void btnCall_Click(object sender, EventArgs e)
         {
             _vm.setBetChoosen(_vm.CurrentBet-_vm.PostedBet);
             this.txtBetAmount.Text = _vm.BetChoosen.ToString();
-            this.DialogResult = DialogResult.OK;
+            sync1.Set();
+            //this.DialogResult = DialogResult.OK;
         }
 
         private void btnRaiseTo_Click(object sender, EventArgs e)
@@ -73,7 +85,8 @@ namespace Poker.Client.Support.Dialogs
                 amt = Convert.ToDecimal(this.txtBetAmount.Text);
             _vm.setBetChoosen(amt);
             this.txtBetAmount.Text = _vm.BetChoosen.ToString();
-            this.DialogResult = DialogResult.OK;
+            sync1.Set();
+            //this.DialogResult = DialogResult.OK;
         }
 
         private void btn3BB_Click(object sender, EventArgs e)
@@ -121,10 +134,14 @@ namespace Poker.Client.Support.Dialogs
         {
             //Console.WriteLine("Inside SimulateRequest for " + this._vm_seat.UserName + " for " + comment);
             
-            if (!this.IsHandleCreated)
+            //if (!this.IsHandleCreated)
+            //{
+            //    Console.WriteLine("While simulating requst bet , handle is not created");
+            //    return;
+            //}
+            while(!this.IsHandleCreated)
             {
-                Console.WriteLine("While simulating requst bet , handle is not created");
-                return;
+
             }
             this.Invoke((MethodInvoker)delegate
             {
@@ -149,6 +166,11 @@ namespace Poker.Client.Support.Dialogs
             {
                 counter--;
                 this.labelCounter.Text = counter.ToString();
+                if (counter == 15) ;
+                {
+                    this.txtBetAmount.Text = "10";
+                    btnRaiseTo.PerformClick();
+                }
                 if (counter <= 0)
                 {
                     try
@@ -173,13 +195,16 @@ namespace Poker.Client.Support.Dialogs
                 timer1.Enabled = false;
 
                 this.labelCounter.Text = "";
-                
+                sync1.Set();
                 //Views.View_Table vt = (Views.View_Table)this.Parent;
                 //vt.threadSync.Set();
             });
-            this.DialogResult = DialogResult.Cancel;
+            //this.DialogResult = DialogResult.Cancel;
         }
 
-       
+        private void txtBetAmount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -18,9 +18,7 @@ namespace Poker.Client.Support.Views
     {
         private ViewModel_Seat _vm_seat = null;
         Label labelChipsCount;
-        Button btnFold;
-        Button btnCall;
-        Button btnRaise;
+      
         Button btnDealer;
         
         Color _panelswapcolor = Color.Salmon;
@@ -34,10 +32,8 @@ namespace Poker.Client.Support.Views
         {
             this._vm_seat = seat;
             this.labelChipsCount = new Label();
-            this.btnFold = new Button();
-            this.btnCall = new Button();
-            this.btnRaise = new Button();
             this.btnDealer = new Button();
+            
       
             this.DoubleBuffered = true;
            
@@ -66,61 +62,29 @@ namespace Poker.Client.Support.Views
                 }
                 // Add the two hidden buttons for "Fold" , "Continue"
                 this.btnJoinLeave.DataBindings.Add("Text", _vm_seat, "JoinValue");
-                btnFold.Text = "Fold";
-                btnCall.Text = "Call";
-                btnRaise.Text = "Raise";
+              
                 btnDealer.Text = " D ";
-                btnFold.Font = new Font(btnFold.Font.FontFamily, 6);
-                btnCall.Font = new Font(btnFold.Font.FontFamily, 6);
-                btnRaise.Font = new Font(btnFold.Font.FontFamily, 6);
-                btnDealer.Font = new Font(btnFold.Font.FontFamily, 6);
+              
 
-
-                btnFold.Size = new Size(this.btnJoinLeave.Width, this.btnJoinLeave.Height);
-                btnFold.Location = new Point(this.Left-this.Width, this.Top+this.Height);
-                btnCall.Size = new Size(this.btnJoinLeave.Width, this.btnJoinLeave.Height);
-                btnCall.Location = new Point(this.btnFold.Left + this.btnFold.Width, this.Top + this.Height);
-                btnRaise.Size = new Size(this.btnJoinLeave.Width, this.btnJoinLeave.Height);
-                btnRaise.Location = new Point(this.btnCall.Left + this.btnCall.Width, this.Top + this.Height);
                 btnDealer.Size = new Size(this.btnJoinLeave.Width/2, this.btnJoinLeave.Height);
                 btnDealer.Location = new Point(this.Left, this.Top + this.Height);
 
                 bool visible = true;
-                btnFold.BackColor = Color.LightGreen;
-                btnFold.Visible = visible;
-                btnCall.BackColor = Color.Green;
-                btnCall.Visible = visible;
-                btnRaise.BackColor = Color.LightGreen;
-                btnRaise.Visible = visible;
                 btnDealer.BackColor = Color.White;
                 btnDealer.Visible = this._vm_seat.IsDealer;
 
                 this.Parent.Controls.Add(this.btnDealer);
                 btnDealer.BringToFront();
                    
-                if (_vm_seat.SeatNo == 100) //test code , to be deleted eventually
-               {
-                    this.Parent.Controls.Add(this.btnFold);
-                    this.Parent.Controls.Add(this.btnCall);
-                    this.Parent.Controls.Add(this.btnRaise);
-
-                    btnFold.BringToFront();
-                    btnCall.BringToFront();
-                    btnRaise.BringToFront();
-               }
-
                 labelChipsCount.Dock = DockStyle.Bottom;
                 labelChipsCount.Font = new Font("Arial", 6, FontStyle.Bold);
                 //labelChipsCount.Height = 12;
 
-
-
                 labelChipsCount.TextAlign = ContentAlignment.BottomCenter;
-                this.splitContainer2.Panel2.Controls.Add(labelChipsCount);
+                this.tableLayoutPanel1.Controls.Add(labelChipsCount,0,1);
+                this.tableLayoutPanel1.SetColumnSpan(labelChipsCount, 2);
                 
-                this.splitContainer2.SplitterDistance = this.splitContainer2.Height - 10;
-                //this.splitContainer2.Dock = DockStyle.Fill;
-                this.splitContainer3.Dock = DockStyle.Fill;
+              
             }
         }
         public void SimulateRequestBet(string content)
@@ -134,7 +98,7 @@ namespace Poker.Client.Support.Views
 
             {
                 // Flash the seat with a time ticker
-                this.origColor = this.splitContainer2.Panel2.BackColor;
+                //this.origColor = this.splitContainer2.Panel2.BackColor;
                 //Console.WriteLine("Inside SimulateRequest for " + this._vm_seat.UserName + " for " + comment);
                 if (!this.IsHandleCreated)
                 {
@@ -152,62 +116,14 @@ namespace Poker.Client.Support.Views
                     timer1.Enabled = true;
                     timer1.Interval = 200;
                     timer1.Start();
-                    View_Table vt = (View_Table)this.Parent;
+                    View_Table vt = (View_Table)(this.Parent.Parent);
                     vt.threadSync.Reset();
 
                 });
             }
             Console.WriteLine("Done with SimulateRequestBet function call");
         }
-        public void SimulateRequestBet1(string content)
-        {
-            string[] arr = content.Split(':');
-            string tableno = arr[0];
-            decimal potsize = Convert.ToDecimal(arr[1]);
-            decimal currentbet = Convert.ToDecimal(arr[2]);
-            decimal maxraisebet = Convert.ToDecimal(arr[3]);
-            string comment = arr[4];
-
-            {
-                // Flash the seat with a time ticker
-                this.origColor = this.splitContainer2.Panel2.BackColor;
-                //Console.WriteLine("Inside SimulateRequest for " + this._vm_seat.UserName + " for " + comment);
-                if (!this.IsHandleCreated)
-                {
-                    Console.WriteLine("While simulating requst bet , handle is not created");
-                    return;
-                }
-                this.Invoke((MethodInvoker)delegate
-                {
-                    counter = 50;
-
-                    if (!this.Parent.Controls.Contains(this.btnFold))
-                    {
-                        this.Parent.Controls.Add(this.btnFold);
-                        this.Parent.Controls.Add(this.btnCall);
-                        this.Parent.Controls.Add(this.btnRaise);
-
-                        btnFold.BringToFront();
-                        btnCall.BringToFront();
-                        btnRaise.BringToFront();
-                    }
-
-                    this.btnCall.Visible = true;
-                    this.btnFold.Visible = true;
-                    this.btnRaise.Visible = true;
-                    this.btnCall.Text = "Call " + currentbet.ToString();
-                    this.btnRaise.Text = "Raise " + maxraisebet.ToString();
-
-                    timer1.Enabled = true;
-                    timer1.Interval = 200;
-                    timer1.Start();
-                    View_Table vt = (View_Table)this.Parent;
-                    vt.threadSync.Reset();
-
-                });
-            }
-            Console.WriteLine("Done with SimulateRequestBet function call");
-        }
+       
         private void timer1_Tick(object sender, EventArgs e)
         {
 
@@ -217,9 +133,6 @@ namespace Poker.Client.Support.Views
                 counter--;
                 this.labelChipsCount.Text = counter.ToString();
                 
-                this.btnCall.Visible = true;
-                this.btnFold.Visible = true;
-                this.btnRaise.Visible = true;
               
                 if (counter <= 0)
                 {
@@ -245,21 +158,7 @@ namespace Poker.Client.Support.Views
                 timer1.Enabled = false;
 
                 this.labelChipsCount.Text = this._vm_seat.UserName;
-
-                this.btnCall.Visible = false;
-                this.btnFold.Visible = false;
-                this.btnRaise.Visible = false;
-
-                this.btnCall.Text = "Call";
-                this.btnRaise.Text = "Raise";
-
-                if (this.Parent.Controls.Contains(this.btnFold))
-                {
-                    this.Parent.Controls.Remove(this.btnCall);
-                    this.Parent.Controls.Remove(this.btnFold);
-                    this.Parent.Controls.Remove(this.btnRaise);
-                }
-                View_Table vt = (View_Table)this.Parent;
+                View_Table vt = (View_Table)(this.Parent.Parent);
                 vt.threadSync.Set();
             });
         }
@@ -296,7 +195,7 @@ namespace Poker.Client.Support.Views
         {
             var sw = new Stopwatch(); sw.Start();
             short halfCycle = (short)Math.Round(CycleTime_ms * 0.5);
-            View_Table vt = (View_Table)this.Parent;
+            View_Table vt = (View_Table)(this.Parent.Parent);
             string swapped = this.labelChipsCount.Text;
             Color origColor = this.labelChipsCount.BackColor;
             while (vt.simulatePlayerAction == this._vm_seat.SeatNo)
@@ -400,8 +299,8 @@ namespace Poker.Client.Support.Views
         }
         public void repaint()
         {
-            this.splitContainer3.Panel1.Invalidate();
-            this.splitContainer3.Panel2.Invalidate();
+            //this.splitContainer3.Panel1.Invalidate();
+            //this.splitContainer3.Panel2.Invalidate();
             //this.btnJoinLeave.Invalidate();
             this.Invalidate();
             this.Invoke((MethodInvoker)delegate
@@ -410,8 +309,32 @@ namespace Poker.Client.Support.Views
             });
               
          }
-      
 
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+            
+        }
+
+        private void tableLayoutPanel1_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+        {
+            
+            if ((e.Column == 0) && (e.Row == 0))
+            {
+                if (this._vm_seat.HoleCard_1 != null)
+                    e.Graphics.DrawImage(this._vm_seat.HoleCard_1, e.CellBounds);
+                else
+                    e.Graphics.DrawImage(View_Deck.Instance.GetBackCard(), e.CellBounds);
+            }
+            if ((e.Column == 1) && (e.Row == 0))
+            {
+                if (this._vm_seat.HoleCard_2 != null)
+                    e.Graphics.DrawImage(this._vm_seat.HoleCard_2, e.CellBounds);
+                else
+                    e.Graphics.DrawImage(View_Deck.Instance.GetBackCard(), e.CellBounds);
+            }
+        }
+
+       
     }
 
 }

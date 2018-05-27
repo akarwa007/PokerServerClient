@@ -42,3 +42,5 @@ C:\Users\akarwa\Poker\PokerServer\server\Poker.Gateway\bin\Debug\Newtonsoft.Json
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Gateway\obj\Debug\Poker.Gateway.csprojResolveAssemblyReference.cache
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Gateway\obj\Debug\Poker.Gateway.dll
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Gateway\obj\Debug\Poker.Gateway.pdb
+C:\Users\akarwa\Poker\PokerServer\server\Poker.Gateway\obj\Debug\Poker.Gateway.csproj.CoreCompileInputs.cache
+C:\Users\akarwa\Poker\PokerServer\server\Poker.Gateway\obj\Debug\Poker.Gateway.csproj.CopyComplete

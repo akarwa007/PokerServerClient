@@ -120,3 +120,5 @@ C:\Users\akarwa\Poker\PokerServer\client\Poker.Client.Support\obj\Debug\Poker.Cl
 C:\Users\akarwa\Poker\PokerServer\client\Poker.Client.Support\obj\Debug\Poker.Client.Support.csproj.GenerateResource.Cache
 C:\Users\akarwa\Poker\PokerServer\client\Poker.Client.Support\obj\Debug\Poker.Client.Support.dll
 C:\Users\akarwa\Poker\PokerServer\client\Poker.Client.Support\obj\Debug\Poker.Client.Support.pdb
+C:\Users\akarwa\Poker\PokerServer\client\Poker.Client.Support\obj\Debug\Poker.Client.Support.csproj.CoreCompileInputs.cache
+C:\Users\akarwa\Poker\PokerServer\client\Poker.Client.Support\obj\Debug\Poker.Client.Support.csproj.CopyComplete

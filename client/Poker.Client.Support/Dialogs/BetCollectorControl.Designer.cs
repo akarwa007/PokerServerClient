@@ -161,6 +161,7 @@
             this.txtBetAmount.Name = "txtBetAmount";
             this.txtBetAmount.Size = new System.Drawing.Size(103, 20);
             this.txtBetAmount.TabIndex = 8;
+            this.txtBetAmount.TextChanged += new System.EventHandler(this.txtBetAmount_TextChanged);
             // 
             // timer1
             // 
@@ -206,7 +207,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(271, 132);
             this.Controls.Add(this.labelTimeLeft);
             this.Controls.Add(this.labelUserName);
             this.Controls.Add(this.labelCounter);
@@ -221,6 +221,7 @@
             this.Controls.Add(this.trackBar1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "BetCollectorControl";
+            this.Size = new System.Drawing.Size(271, 132);
             this.Load += new System.EventHandler(this.BetCollectorControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);

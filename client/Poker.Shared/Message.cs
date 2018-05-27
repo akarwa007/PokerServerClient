@@ -136,7 +136,8 @@ namespace Poker.Shared
         TableUpdate,
         CasinoUpdate,
         GeneralPurpose,
-		ServerReady
+		ServerReady,
+        AnnounceWinner
     }
   
     [JsonConverter(typeof(StringEnumConverter))]

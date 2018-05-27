@@ -52,8 +52,7 @@ namespace Poker.Shared
     }
     public enum Rank
     {
-        Ace = 1,
-        Two,
+        Two  = 2,
         Three,
         Four,
         Five,
@@ -65,6 +64,7 @@ namespace Poker.Shared
         Jack,
         Queen,
         King,
+        Ace,
         Blank
     }
 }

@@ -22,7 +22,7 @@ namespace Poker.Server
         private decimal _bigBlind = 0;
         private decimal _minCallingbBetSize = 10;  // these are sent to the user when requesting action
         private decimal _maxRaisingBettingSize = -1; // these are sent to the user when requesting action , -1 means its a no limit game and raise can be all of players money on the table
-
+        private HandRankings _winninghand = null;
         private string _gameState = "NotStarted"; // valid values "Starting" , "Ended" , "InProgress" , "NotStarted"
         public Game(decimal minChips, decimal maxChips, decimal smallblind, decimal bigblind)
         {
@@ -128,6 +128,14 @@ namespace Poker.Server
                 return _river;
             }
 
+        }
+        public void setWinningHand(HandRankings hr)
+        {
+            _winninghand = hr;
+        }
+        public HandRankings WinningHand
+        {
+            get { return _winninghand; }
         }
         public decimal AddToPot(decimal amount)
         {

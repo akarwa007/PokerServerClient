@@ -93,7 +93,16 @@ namespace Poker.Server
             message.Content += river.Rank + ":" + river.Suit;
             SendToTablePlayers(t, message);
         }
-       
+        public static void SendWinningHand(Table t, HandRankings hr)
+        {
+            Poker.Shared.Message message = new Shared.Message("", MessageType.AnnounceWinner);
+            message.Content = t.TableNo + ":" + hr.UserName + ":";
+            for (int i = 0; i < 5; i++)
+            {
+                message.Content += hr.Cards[i].Rank + ":" + hr.Cards[i].Suit;
+            }
+            SendToTablePlayers(t, message);
+        }
         public static void  SendTableUpdateMessage(Table t)
         {
             Message m = new Message("TableUpdate", MessageType.TableUpdate);

@@ -25,22 +25,30 @@ namespace PokerClient
 
         private void btnAddPlayer_Click(object sender, EventArgs e)
         {
-            try { 
-            TestPlayer newplayer = new TestPlayer();
-            
-            this.tabControl1.TabPages.Add("Player_" + tabcount.ToString());
-            TabPage newpage = tabControl1.TabPages[tabcount - 1];
-            newpage.BackColor = bk_color[color_index % 2];
-            color_index++;
-            newpage.Controls.Add(newplayer);
-            newplayer.Dock = DockStyle.Fill;
-            tabcount++;
-            }catch(Exception e1)
+            AddPTestPlayer();
+        }
+        private void AddPTestPlayer()
+        {
+            try
+            {
+                TestPlayer newplayer = new TestPlayer();
+
+                this.tabControl1.TabPages.Add("Player_" + tabcount.ToString());
+                TabPage newpage = tabControl1.TabPages[tabcount - 1];
+                newpage.BackColor = bk_color[color_index % 2];
+                color_index++;
+                newpage.Controls.Add(newplayer);
+                newplayer.ConnectToServer();
+                newplayer.Dock = DockStyle.Fill;
+                tabcount++;
+            }
+            catch (Exception e1)
             {
                 Console.WriteLine(e1.Message);
             }
 
         }
+
 
         private void TestForm_Load(object sender, EventArgs e)
         {

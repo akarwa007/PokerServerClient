@@ -31,6 +31,10 @@ namespace Poker.Server
         {
             PlayerAction += MessageFactory.SendMessageToPlayer;
         }
+        public Tuple<Card,Card> GetHoleCards()
+        {
+            return _holecards;
+        }
         public void resetPostedBets()
         {
             _postedBet.Clear();

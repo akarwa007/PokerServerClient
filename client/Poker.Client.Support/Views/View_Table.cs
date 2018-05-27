@@ -25,6 +25,9 @@ namespace Poker.Client.Support.Views
         View_Card VCard_flop1, VCard_flop2, VCard_flop3, VCard_turn, VCard_river;
         Label lflop1, lflop2, lflop3, lturn, lriver;
         Label lPotValue;
+        Label lAnnounceWinner;
+        Dialogs.BetCollectorControl betctrl = null;
+        ViewModel_BetCollection vm_bc = new ViewModel_BetCollection();
         short myseat = -1; // means not occupying any seat
         Dictionary<short, View_Seat> Dict_View_Seats = new Dictionary<short, View_Seat>();
 
@@ -81,14 +84,15 @@ namespace Poker.Client.Support.Views
             }
             set { }
         }
-        private void resizehere(object sender, EventArgs e)
-        {
-            Control ctrl = (Control)sender;
-            int xChange = 1, yChange = 1;
+        //private void resizehere(object sender, EventArgs e)
+        //{
+        //    Control ctrl = (Control)sender;
+        //    int xChange = 1, yChange = 1;
          
-        }
+        //}
         private void RenderControls()
         {
+            CreateLayoutPanels();
             int x, y;
 
             int y1 = this.Height;
@@ -99,7 +103,8 @@ namespace Poker.Client.Support.Views
 
             x = seatwidth;
             y = seatheight;
-
+       
+            
             if (_vm_table != null)
             {
                 int delta_width = seatwidth / 4;
@@ -107,77 +112,70 @@ namespace Poker.Client.Support.Views
                 
                 this.VCard_flop1 = new View_Card(_vm_table.Flop1);
                 this.VCard_flop1.Size = new Size(this.Width / 13, this.Height / 6);
-                int seatloc_1_x = delta_shift + seatwidth * 3;
-                this.VCard_flop1.Location = new Point(seatloc_1_x, y1/2 - seatheight/2);
-                this.Controls.Add(VCard_flop1);
+                this.tableLayoutPanel2.Controls.Add(VCard_flop1,0,0);
 
                 
                 this.VCard_flop2 = new View_Card(_vm_table.Flop2);
                 this.VCard_flop2.Size = new Size(this.Width / 13, this.Height / 6);
-                int seatloc_2_x = seatloc_1_x + seatwidth + delta_width;
-                this.VCard_flop2.Location = new Point(seatloc_2_x, y1 / 2 - seatheight / 2);
-                this.Controls.Add(VCard_flop2);
+                this.tableLayoutPanel2.Controls.Add(VCard_flop2,1,0);
 
                 this.VCard_flop3 = new View_Card(_vm_table.Flop3);
                 this.VCard_flop3.Size = new Size(this.Width / 13, this.Height / 6);
-                int seatloc_3_x = seatloc_2_x + seatwidth + delta_width;
-                this.VCard_flop3.Location = new Point(seatloc_3_x, y1 / 2 - seatheight / 2);
-                this.Controls.Add(VCard_flop3);
+                this.tableLayoutPanel2.Controls.Add(VCard_flop3,2,0);
 
                 this.VCard_turn = new View_Card(_vm_table.Turn);
                 this.VCard_turn.Size = new Size(this.Width / 13, this.Height / 6);
-                int seatloc_4_x = seatloc_3_x + seatwidth + delta_width;
-                this.VCard_turn.Location = new Point(seatloc_4_x, y1 / 2 - seatheight / 2);
-                this.Controls.Add(VCard_turn);
+                this.tableLayoutPanel2.Controls.Add(VCard_turn,3,0);
 
                 this.VCard_river = new View_Card(_vm_table.River);
                 this.VCard_river.Size = new Size(this.Width / 13, this.Height / 6);
-                int seatloc_5_x = seatloc_4_x + seatwidth + delta_width;
-                this.VCard_river.Location = new Point(seatloc_5_x, y1 / 2 - seatheight / 2);
-                this.Controls.Add(VCard_river);
+                this.tableLayoutPanel2.Controls.Add(VCard_river,4,0);
 
                 int yy = y1 / 2 - seatheight / 2 + seatheight + seatheight/6;
                 lflop1 = new Label();
                 lflop1.Text = "flop";
                 lflop1.Width = seatwidth;
                 lflop1.TextAlign = ContentAlignment.MiddleCenter;
-                lflop1.Location = new Point(seatloc_1_x, yy);
-                this.Controls.Add(lflop1);
+                this.tableLayoutPanel2.Controls.Add(lflop1, 0, 1);
 
                 lflop2 = new Label();
                 lflop2.Text = "flop";
                 lflop2.Width = seatwidth;
                 lflop2.TextAlign = ContentAlignment.MiddleCenter;
-                lflop2.Location = new Point(seatloc_2_x, yy);
-                this.Controls.Add(lflop2);
+                this.tableLayoutPanel2.Controls.Add(lflop2, 1, 1);
 
                 lflop3 = new Label();
                 lflop3.Text = "flop";
                 lflop3.Width = seatwidth;
                 lflop3.TextAlign = ContentAlignment.MiddleCenter;
-                lflop3.Location = new Point(seatloc_3_x, yy);
-                this.Controls.Add(lflop3);
+                this.tableLayoutPanel2.Controls.Add(lflop3, 2, 1);
 
                 lturn = new Label();
                 lturn.Text = "turn";
                 lturn.Width = seatwidth;
                 lturn.TextAlign = ContentAlignment.MiddleCenter;
-                lturn.Location = new Point(seatloc_4_x, yy);
-                this.Controls.Add(lturn);
+                this.tableLayoutPanel2.Controls.Add(lturn, 3, 1);
 
                 lriver = new Label();
                 lriver.Text = "river";
                 lriver.Width = seatwidth;
                 lriver.TextAlign = ContentAlignment.MiddleCenter;
-                lriver.Location = new Point(seatloc_5_x, yy);
-                this.Controls.Add(lriver);
+                this.tableLayoutPanel2.Controls.Add(lriver, 4, 1);
 
                 lPotValue = new Label();
                 lPotValue.TextAlign = ContentAlignment.MiddleCenter;
                 lPotValue.Font = new Font("Arial", 8, FontStyle.Bold);
                 lPotValue.Text = "Pot Size = 0";
-                lPotValue.Location = new Point(seatloc_3_x, y1 / 2 - seatheight / 2 - 24);
+                //lPotValue.Location = new Point(seatloc_3_x, y1 / 2 - seatheight / 2 - 24);
                 this.Controls.Add(lPotValue);
+
+                lAnnounceWinner = new Label();
+                lAnnounceWinner.TextAlign = ContentAlignment.MiddleCenter;
+                lAnnounceWinner.Font = new Font("Arial", 16, FontStyle.Bold);
+                lAnnounceWinner.Text = "The winner is ";
+                lAnnounceWinner.Location = new Point(this.Width/3,this.Height/2);
+                lAnnounceWinner.Visible = false;
+                this.Controls.Add(lAnnounceWinner);
 
                 Label l1, l2, l3;
                 l1 = new Label();
@@ -187,14 +185,12 @@ namespace Poker.Client.Support.Views
                 l1.Text = _vm_table.GameName;
                 l2.Text = _vm_table.GameValue;
               
-
                 l1.Width = this.Width;
                 l1.TextAlign = ContentAlignment.MiddleCenter;
                 l1.Font = new Font("Arial", 24, FontStyle.Bold);
                 l1.Location = new Point(0, 0);
                 l1.Size = new Size(this.Width, seatheight);
                 
-
                 l3.Text = _vm_table.TableNo;
                 l3.Width = this.Width;
                 l3.TextAlign = ContentAlignment.MiddleCenter;
@@ -202,52 +198,56 @@ namespace Poker.Client.Support.Views
                 l3.Location = new Point(0, y1-seatheight);
                 l3.Size = new Size(this.Width, seatheight);
                
-
-            
-
                 this.Controls.Add(l1);
                // this.Controls.Add(l2);
                 this.Controls.Add(l3);
             }
-            
+            Button btnDealer = new Button();
+            btnDealer.BackColor = Color.Blue;
+       
             short seatno = 2;
             View_Seat seat1 = null;
-            
-            
+                        
             ViewModel_Seat vm_seat = _vm_table.get_VM_Seat(seatno);
             int count = 10;
           
             while (count > 6)
             {
                 x = x + seatwidth * 2;
-                //y = y + 10;
                 vm_seat = _vm_table.get_VM_Seat(seatno);
                 seat1 = new View_Seat(vm_seat);
                 Dict_View_Seats[seatno] = seat1;
                 seat1.JoinedTableEvent += Seat_JoinedTableEvent;
                 seat1.ReceiveBetEvent += Seat_ReceiveBetEvent;
                 seat1.Size = new Size(seatwidth, seatheight);
-                seat1.Location = new Point(x, y);
-                this.Controls.Add(seat1);
+                this.tableLayoutPanel1.Controls.Add(seat1, seatno-1, 1);
+                if(vm_seat.IsDealer)
+                {
+                    btnDealer.Visible = true;
+                    this.tableLayoutPanel1.Controls.Add(btnDealer, seatno - 1, 2);
+                }
                 count--;
                 seatno++;
             }
             x = seatwidth;
             y = y1 - seatheight*2;
             seatno = 10;
+            int col = 1;
             while (count > 2)
             {
                 x = x + seatwidth * 2;
-                //y = y + 10;
-
                 vm_seat = _vm_table.get_VM_Seat(seatno);
                 seat1 = new View_Seat(vm_seat);
                 Dict_View_Seats[seatno] = seat1;
                 seat1.JoinedTableEvent += Seat_JoinedTableEvent;
                 seat1.ReceiveBetEvent += Seat_ReceiveBetEvent;
                 seat1.Size = new Size(seatwidth, seatheight);
-                seat1.Location = new Point(x, y);
-                this.Controls.Add(seat1);
+                this.tableLayoutPanel1.Controls.Add(seat1, col++, 3);
+                if (vm_seat.IsDealer)
+                {
+                    btnDealer.Visible = true;
+                    this.tableLayoutPanel1.Controls.Add(btnDealer, col-1, 4);
+                }
                 count--;
                 seatno--;
             }
@@ -258,15 +258,18 @@ namespace Poker.Client.Support.Views
             while (count > 1)
             {
                 x = x + x1 / 12;
-                //y = y + 10;
                 vm_seat = _vm_table.get_VM_Seat(seatno);
                 seat1 = new View_Seat(vm_seat);
                 Dict_View_Seats[seatno] = seat1;
                 seat1.JoinedTableEvent += Seat_JoinedTableEvent;
                 seat1.ReceiveBetEvent += Seat_ReceiveBetEvent;
                 seat1.Size = new Size(seatwidth, seatheight);
-                seat1.Location = new Point(x, y);
-                this.Controls.Add(seat1);
+                this.tableLayoutPanel1.Controls.Add(seat1, 0, 2);
+                if (vm_seat.IsDealer)
+                {
+                    btnDealer.Visible = true;
+                    this.tableLayoutPanel1.Controls.Add(btnDealer, 0, 3);
+                }
                 count--;
             }
             seatno = 6;
@@ -280,12 +283,22 @@ namespace Poker.Client.Support.Views
                 seat1.JoinedTableEvent += Seat_JoinedTableEvent;
                 seat1.ReceiveBetEvent += Seat_ReceiveBetEvent;
                 seat1.Size = new Size(seatwidth, seatheight);
-                seat1.Location = new Point(x1 - 2 * x1 / 10, y);
-                this.Controls.Add(seat1);
+                this.tableLayoutPanel1.Controls.Add(seat1, 5, 2);
+                if (vm_seat.IsDealer)
+                {
+                    btnDealer.Visible = true;
+                    this.tableLayoutPanel1.Controls.Add(btnDealer, 5, 3);
+                }
                 count--;
                 seatno++;
             }
-           
+
+            betctrl = new Dialogs.BetCollectorControl();
+            
+            this.Controls.Add(betctrl);
+            betctrl.Location = new Point(0, 0);
+            betctrl.Visible = false;
+
             this.ResumeLayout();
         }
         private short MySeatNo        
@@ -380,6 +393,17 @@ namespace Poker.Client.Support.Views
         {
 
         }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         public void OnReceiveHoleCards(Tuple<A_Card, A_Card> holecards)
         {
             if (MySeatNo > 0)
@@ -401,6 +425,17 @@ namespace Poker.Client.Support.Views
             }
             Console.WriteLine("OnReceiveHoleCards " + holecards.ToString());
         }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel2_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
         public void OnReceiveFlop(Tuple<A_Card,A_Card,A_Card> flop)
         {
             this._vm_table.Flop1.Update(flop.Item1);
@@ -409,55 +444,31 @@ namespace Poker.Client.Support.Views
             this._vm_table.Board.Item1.Update(flop.Item1);
             this._vm_table.Board.Item2.Update(flop.Item2);
             this._vm_table.Board.Item3.Update(flop.Item3);
-            /*
-            this.Invoke((MethodInvoker)delegate
-            {
-                this.VCard_flop1.Invalidate();
-                this.VCard_flop2.Invalidate();
-                this.VCard_flop3.Invalidate();
-                this.Invalidate(true);
-                this.Update();
-            });
-            */
+       
             Console.WriteLine("OnReceiveFlop " + flop.ToString());
         }
         public void OnReceiveTurn(A_Card turn)
         {
             this._vm_table.Turn.Update(turn);
             this._vm_table.Board.Item4.Update(turn);
-            /*
-            this.Invoke((MethodInvoker)delegate
-            {
-                this.VCard_turn.Invalidate();
-                this.Invalidate(true);
-                this.Update();
-            });
-            */
-           
-           
+               
             Console.WriteLine("OnReceiveTurn " + turn.ToString());
         }
         public void OnReceiveRiver(A_Card river)
         {
             this._vm_table.River.Update(river);
             this._vm_table.Board.Item5.Update(river);
-            /*
-            this.Invoke((MethodInvoker)delegate
-            {
-                this.VCard_river.Invalidate();
             
-                this.Update();
-            });
-            */
             Console.WriteLine("OnReceiveRiver " + river.ToString());
         }
         public void OnReceiveRequestBet(Shared.Message m)
-        {    
+        {
+        
             if (MySeatNo > 0)
             {
                 // Need to change this to assign to the view model of the seat rather than the view of the seat.
                 //Dict_View_Seats[MySeatNo].SimulateRequestBet(m.Content);
-                ViewModel_BetCollection vm_bc = new ViewModel_BetCollection();
+                vm_bc = new ViewModel_BetCollection();
                 vm_bc.AvailableMoney = _vm_table.get_VM_Seat(MySeatNo).ChipCounts;
                 string[] arr = m.Content.Split(':');
                 string tableno = arr[0];
@@ -474,26 +485,45 @@ namespace Poker.Client.Support.Views
                 vm_bc.MinBetAllowed = Math.Max(minbet, currentbet-postedbet);
                 vm_bc.UserName = this.UserName;
                 decimal betmade = 0;
-                this.Invoke((MethodInvoker)delegate
+                ManualResetEvent evt1 = new ManualResetEvent(false);
+                
+                Task taskA = Task.Factory.StartNew(() => 
                 {
-                    this.lPotValue.Text = "Pot = " + potsize.ToString();
-                    using (Dialogs.BetCollectorControl x1 = new Dialogs.BetCollectorControl(vm_bc))
+                    this.Invoke((MethodInvoker)delegate
                     {
-                        x1.StartPosition = FormStartPosition.Manual;
-                        x1.ShowInTaskbar = false;
-                        x1.Location = this.PointToScreen(Point.Empty);
-                        x1.MaximizeBox = false;
-                        x1.MinimizeBox = false;
-                        DialogResult result = x1.ShowDialog(this);
+                        this.lPotValue.Text = "Pot = " + potsize.ToString();
+                        //using (Dialogs.BetCollectorControl x1 = new Dialogs.BetCollectorControl(vm_bc))
+                        //{
+                        //    x1.StartPosition = FormStartPosition.Manual;
+                        //    x1.ShowInTaskbar = false;
+                        //    x1.Location = this.PointToScreen(Point.Empty);
+                        //    x1.MaximizeBox = false;
+                        //    x1.MinimizeBox = false;
+                        //    DialogResult result = x1.ShowDialog(this);
 
-                        if (result == DialogResult.Cancel)
-                            betmade = -1;
-                        else
-                            betmade = x1.getModel().BetChoosen;
-                    }
+                        //    if (result == DialogResult.Cancel)
+                        //        betmade = -1;
+                        //    else
+                        //        betmade = x1.getModel().BetChoosen;
+                        //}
+                        betctrl.Visible = true;
+                        betctrl.start(vm_bc, evt1);
+                        betctrl.BringToFront();
+                        //this.Controls.Remove(betctrl);
+                    });
+                    evt1.WaitOne();
+                    //betmade = vm_bc.BetChoosen;
+                    betmade = betctrl.getModel().BetChoosen;
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        betctrl.Visible = false;
+                    });
+                    this.ReceiveBetEvent.Invoke(this._vm_table.TableNo, betmade, gameStage);
+                    Console.WriteLine("OnReceiveRequestBet " + m.Content);
+
                 });
-                this.ReceiveBetEvent.Invoke(this._vm_table.TableNo, betmade, gameStage);
-                Console.WriteLine("OnReceiveRequestBet " + m.Content);
+                //taskA.Wait();
+                
             }
             
             //Console.WriteLine("OnReceiveRequestBet " + m.Content);
@@ -532,11 +562,64 @@ namespace Poker.Client.Support.Views
 
         private void View_Table_SizeChanged(object sender, EventArgs e)
         {
-            resizehere(sender, e);
+            //resizehere(sender, e);
            //repaint();
 
         }
+        private void CreateLayoutPanels()
+        {
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 6;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 2);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(633, 299);
+            this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.tableLayoutPanel2.ColumnCount = 5;
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 
-     
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            //this.tableLayoutPanel2.Location = new System.Drawing.Point(116, 121);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+           // this.tableLayoutPanel2.Size = new System.Drawing.Size(95, 53);
+            this.tableLayoutPanel2.TabIndex = 0;
+            this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
+            this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel2, 4);
+            // 
+            // View_Table
+            // 
+            this.Controls.Add(this.tableLayoutPanel1);
+           
+        }
+
+
     }
 }

@@ -77,3 +77,5 @@ C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\bin\Debug\Newtonsoft.Js
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.csprojResolveAssemblyReference.cache
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.exe
 C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.pdb
+C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.csproj.CoreCompileInputs.cache
+C:\Users\akarwa\Poker\PokerServer\server\Poker.Server.UI\obj\Debug\Poker.Server.UI.csproj.CopyComplete

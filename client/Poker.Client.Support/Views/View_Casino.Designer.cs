@@ -28,24 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("2-4");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Texas Holdem", new System.Windows.Forms.TreeNode[] {
-            treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("1-3");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("2-5");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("No Limit Holdem", new System.Windows.Forms.TreeNode[] {
-            treeNode10,
-            treeNode11});
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Omaha Hi Low");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Poker Games", new System.Windows.Forms.TreeNode[] {
-            treeNode9,
-            treeNode12,
-            treeNode13});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("2-4");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Texas Holdem", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("1-3");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("2-5");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("No Limit Holdem", new System.Windows.Forms.TreeNode[] {
+            treeNode3,
+            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Omaha Hi Low");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Poker Games", new System.Windows.Forms.TreeNode[] {
+            treeNode2,
+            treeNode5,
+            treeNode6});
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.txtPlayerProfile = new System.Windows.Forms.TextBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,6 +79,20 @@
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer2_Panel2_Paint);
+            this.splitContainer2.Size = new System.Drawing.Size(221, 391);
+            this.splitContainer2.SplitterDistance = 298;
+            this.splitContainer2.TabIndex = 2;
+            // 
             // txtPlayerProfile
             // 
             this.txtPlayerProfile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
@@ -99,22 +113,22 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
-            treeNode8.Name = "24";
-            treeNode8.Text = "2-4";
-            treeNode9.Name = "TexasHoldem";
-            treeNode9.Text = "Texas Holdem";
-            treeNode10.Name = "13";
-            treeNode10.Text = "1-3";
-            treeNode11.Name = "25";
-            treeNode11.Text = "2-5";
-            treeNode12.Name = "NoLimitHoldem";
-            treeNode12.Text = "No Limit Holdem";
-            treeNode13.Name = "OmahaHiLow";
-            treeNode13.Text = "Omaha Hi Low";
-            treeNode14.Name = "PokerGames";
-            treeNode14.Text = "Poker Games";
+            treeNode1.Name = "24";
+            treeNode1.Text = "2-4";
+            treeNode2.Name = "TexasHoldem";
+            treeNode2.Text = "Texas Holdem";
+            treeNode3.Name = "13";
+            treeNode3.Text = "1-3";
+            treeNode4.Name = "25";
+            treeNode4.Text = "2-5";
+            treeNode5.Name = "NoLimitHoldem";
+            treeNode5.Text = "No Limit Holdem";
+            treeNode6.Name = "OmahaHiLow";
+            treeNode6.Text = "Omaha Hi Low";
+            treeNode7.Name = "PokerGames";
+            treeNode7.Text = "Poker Games";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode14});
+            treeNode7});
             this.treeView1.Size = new System.Drawing.Size(221, 401);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -123,32 +137,18 @@
             // 
             this.tableLayoutPanel1.AllowDrop = true;
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 76.94064F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.05936F));
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.730673F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.26933F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(438, 401);
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.tableLayoutPanel1_DragDrop);
             this.tableLayoutPanel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.tableLayoutPanel1_DragEnter);
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer2_Panel2_Paint);
-            this.splitContainer2.Size = new System.Drawing.Size(221, 391);
-            this.splitContainer2.SplitterDistance = 298;
-            this.splitContainer2.TabIndex = 2;
             // 
             // View_Casino
             // 

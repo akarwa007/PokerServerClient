@@ -62,3 +62,5 @@ C:\Users\akarwa\Poker\PokerServer\server\PokerServer\bin\Debug\Poker.Gateway.pdb
 C:\Users\akarwa\Poker\PokerServer\server\PokerServer\bin\Debug\Newtonsoft.Json.xml
 C:\Users\akarwa\Poker\PokerServer\server\PokerServer\obj\Debug\PokerServer.exe
 C:\Users\akarwa\Poker\PokerServer\server\PokerServer\obj\Debug\PokerServer.pdb
+C:\Users\akarwa\Poker\PokerServer\server\PokerServer\obj\Debug\Poker.Server.csproj.CoreCompileInputs.cache
+C:\Users\akarwa\Poker\PokerServer\server\PokerServer\obj\Debug\Poker.Server.csproj.CopyComplete
